@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Blog - Testemunho 3: Ajuda de ex-vereador</title>
+  <title>Blog - Desenvolvimento: GPS</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   <style>
@@ -82,8 +82,8 @@
           <a href="blog-post-2.html" class="list-group-item list-group-item-action">Post #2 (28/02/2025)</a>
           <a href="blog-post-3.html" class="list-group-item list-group-item-action">Post #3 (02/04/2025)</a>
           <a href="blog-post-4.html" class="list-group-item list-group-item-action">Post #4 (15/04/2025)</a>
-          <a href="blog-post-5.html" class="list-group-item list-group-item-action active">Post #5 (21/04/2025)</a>
-          <a href="blog-post-6.html" class="list-group-item list-group-item-action">Post #6 (05/05/2025)</a>
+          <a href="blog-post-5.html" class="list-group-item list-group-item-action">Post #5 (21/04/2025)</a>
+          <a href="blog-post-6.html" class="list-group-item list-group-item-action active">Post #6 (05/05/2025)</a>
         </div>
         <div class="mt-4">
           <a href="blog.html" class="btn btn-primary w-100">
@@ -94,57 +94,36 @@
       
       <!-- Coluna direita - Conteúdo do Post -->
       <div class="col-md-9">
-        <h2>Testemunho 3: Ajuda de ex-vereador</h2>
+        <h2>Desenvolvimento: GPS</h2>
         <p>Data: 21 de Abril 2025</p>
         <p class="text-muted">Por: Pedro Rodrigues e Martim Sousa</p>
         
         <p>
-            Embora este projeto tenha começado como apenas um forma de tornar
-            os semáforos mais eficientes, é o trânsinto que impede a circulação fluida dos veículos de emergeência.
-            Pedimos então ajuda a um ex-vereador da câmara de Lisboa, na área da infraestrutura.
+        O primeiro componente a ser desenvolvido é o GPS.
         </p>
         
-        <div class="card mb-4 bg-light">
-          <div class="card-body">
-            <blockquote class="blockquote mb-0">
-              <p>"Os semáforos abrem, mas os carros não andam. Ficam presos no próximo semáforo que ainda está fechado."</p>
-              <footer class="blockquote-footer">Ex-vereador</footer>
-            </blockquote>
-          </div>
-        </div>
-        
         <p>
-            O maior problema que o entrevistado pode observar, foi o facto de os semáforos só reagirem demasiado tarde,
-            não dando tempo para o trânsito "escoer". 
+        Uma forma de o sistema saber onde o veículo de emergência está, acionando os semáforos mais indicados. 
         </p>
 
-        <div class="card mb-4 bg-light">
-          <div class="card-body">
-            <blockquote class="blockquote mb-0">
-              <p>
-                "Precisa-se de uma forma de ter avenidas inteiras sincronizados para que todo o trânsito possa fluir rapidamente."
-              </p>
-              <footer class="blockquote-footer">Ex-vereador</footer>
-            </blockquote>
-          </div>
-        </div>
-        
         <p>
-        Assim surge a ideia de criar "Green Ways", estradas que disponibilizam prioridade a veículos de emergência,
-        com semáforos interligados, podendo assim reagir quando é realmente preciso. 
-        Estas vias estariam em caminhos muitas vezes percurridas pelos veículos de emergência.
+        Para tal, utilizamos um pequeno arduino ligado a uma antena GPS.
+        O arduino lê a informação da antena, processa-a de formar a obter valores utéis, e comunicando estes valores com o servidor.
         </p>
         
-        <h4>Conclusões da Entrevista</h4>
         <p>
-          Com esta intrevista, vimos a possbilidade do desenvolvimento de uma nova capacidade do nosso sistema.
-          As "Green Ways".
-          Ao falar com quem já teve que se debater sobre estes problemas, a nossa solução tornou-se ainda mais ampla.
+        Foi necessário aprender como um GPS com comunicação UART funciona, além de densenvoler o cliente de comunicação.
+        </p>
+
+            <h4>Resultado</h4>
+        <p>
+        No fim, obtemos um sistema compacto e simples capaz de enviar as suas coordenadas.
         </p>
         <p>
-          A perspectiva deste profissional experiente pôs em causa os problemas ínvisiveis na nossa solução.
-          Estes conhecimentos estão sendo incorporados diretamente no desenvolvimento dos nossos algoritmos de controle de semáforos.
-        
+        De forma a testar fizemos vários percursos com o GPS. Com os dados destes percursos, comparámos com um mapa.
+        </p>
+        <p>
+        Confirmámos assim o comportamento que pretendiámos.
         </p>
       </div>
     </div>
