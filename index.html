@@ -3,71 +3,260 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>RescueFlow - Green Wave for Emergency Vehicles</title>
+  <title>RescueFlow - Every Second Counts</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   <style>
     :root {
-      --primary-color: #0B3C30;   /* Verde escuro do logo */
-      --secondary-color: #FFD600; /* Amarelo */
-      --accent-color: #0B3C30;    /* Verde escuro do logo */
-      --background-color: #e8e8e8; /* Cor de fundo do logo */
+      --primary-gradient: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #3d7ebb 100%);
+      --secondary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --accent-green: #00ff88;
+      --accent-yellow: #ffd700;
+      --accent-orange: #ff6b35;
+      --accent-pink: #ff3d71;
+      --text-light: #ffffff;
+      --text-dark: #1a1a1a;
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     }
 
-    /* Navbar: em verde escuro */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--primary-gradient);
+      color: var(--text-light);
+      overflow-x: hidden;
+    }
+
+    /* Navbar */
     .navbar {
-      background-color: var(--primary-color) !important;
+      background: rgba(30, 60, 114, 0.95) !important;
+      backdrop-filter: blur(10px);
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    /* Banner Section com fundo rosa claro e texto verde escuro */
-    .banner-section {
-      background-color: var(--background-color);
-      padding: 50px 0;
+    .navbar-brand {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--accent-green) !important;
+      text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+    }
+
+    .navbar-nav .nav-link {
+      color: var(--text-light) !important;
+      font-weight: 500;
+      margin: 0 0.5rem;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .navbar-nav .nav-link:hover {
+      color: var(--accent-green) !important;
+      transform: translateY(-2px);
+    }
+
+    .navbar-nav .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 50%;
+      background: var(--accent-green);
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+
+    .navbar-nav .nav-link:hover::after {
+      width: 100%;
+    }
+
+    /* Hero Section */
+    .hero-section {
+      min-height: 100vh;
+      background: var(--primary-gradient);
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><defs><radialGradient id="a" cx="50%" cy="50%"><stop offset="0%" stop-color="rgba(255,255,255,0.1)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></radialGradient></defs><circle cx="10" cy="10" r="1" fill="url(%23a)"/><circle cx="30" cy="5" r="1" fill="url(%23a)"/><circle cx="50" cy="15" r="1" fill="url(%23a)"/><circle cx="70" cy="8" r="1" fill="url(%23a)"/><circle cx="90" cy="12" r="1" fill="url(%23a)"/></svg>');
+      animation: float 20s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) translateX(0px); }
+      25% { transform: translateY(-20px) translateX(10px); }
+      50% { transform: translateY(0px) translateX(-10px); }
+      75% { transform: translateY(20px) translateX(5px); }
+    }
+
+    .hero-content {
       text-align: center;
-    }
-    
-    .logo-container {
-      max-width: 600px;
-      margin: 0 auto;
-    }
-    
-    .banner-section img {
-      max-width: 100%;
-      height: auto;
+      z-index: 2;
     }
 
-    /* Cartões de equipa */
+    .hero-title {
+      font-size: 4rem;
+      font-weight: 900;
+      margin-bottom: 1rem;
+      background: linear-gradient(45deg, var(--accent-green), var(--accent-yellow));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
+    }
+
+    .hero-subtitle {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 300;
+    }
+
+    .hero-tagline {
+      font-size: 1.2rem;
+      color: var(--accent-yellow);
+      font-weight: 600;
+      margin-bottom: 3rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    /* Buttons */
+    .btn-modern {
+      padding: 1rem 2.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border: none;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      z-index: 1;
+    }
+
+    .btn-primary-modern {
+      background: linear-gradient(45deg, var(--accent-green), #00cc70);
+      color: var(--text-dark);
+      box-shadow: 0 8px 25px rgba(0, 255, 136, 0.3);
+    }
+
+    .btn-primary-modern:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 35px rgba(0, 255, 136, 0.4);
+      color: var(--text-dark);
+    }
+
+    .btn-outline-modern {
+      background: transparent;
+      color: var(--text-light);
+      border: 2px solid var(--accent-green);
+    }
+
+    .btn-outline-modern:hover {
+      background: var(--accent-green);
+      color: var(--text-dark);
+      transform: translateY(-3px);
+    }
+
+    /* Sections */
+    .section {
+      padding: 6rem 0;
+      position: relative;
+    }
+
+    .section-dark {
+      background: var(--secondary-gradient);
+    }
+
+    .section-light {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+    }
+
+    /* Cards */
+    .modern-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 2.5rem;
+      box-shadow: var(--card-shadow);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.3s ease;
+      height: 100%;
+      color: var(--text-dark);
+    }
+
+    .modern-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      font-size: 2rem;
+      color: white;
+    }
+
+    .card-icon-problem {
+      background: linear-gradient(45deg, var(--accent-pink), #ff1744);
+    }
+
+    .card-icon-solution {
+      background: linear-gradient(45deg, var(--accent-green), #00e676);
+    }
+
+    /* Team Cards */
     .team-card {
-      transition: transform 0.3s;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-    .team-card:hover {
-      transform: translateY(-5px);
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 2rem;
+      text-align: center;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--text-dark);
+      height: 100%;
     }
 
-    /* Fotos da equipa */
+    .team-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+    }
+
     .team-photo {
       width: 120px;
       height: 120px;
       object-fit: cover;
       border-radius: 50%;
-      border: 3px solid var(--primary-color);
-      margin: 0 auto 15px;
+      border: 4px solid var(--accent-green);
+      margin: 0 auto 1.5rem;
       display: block;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+      box-shadow: 0 8px 25px rgba(0, 255, 136, 0.3);
     }
 
-    /* Seção Blog (Index) */
-    .blog-post .card {
-      border: 1px solid #dedede;
-      transition: transform 0.3s;
-      box-shadow: 0 3px 5px rgba(0,0,0,0.05);
-    }
-    .blog-post .card:hover {
-      transform: scale(1.02);
-    }
-
-    /* Timeline styling */
+    /* Timeline */
     .timeline {
       position: relative;
       max-width: 1200px;
@@ -78,11 +267,13 @@
       content: '';
       position: absolute;
       width: 6px;
-      background-color: var(--primary-color);
+      background: linear-gradient(to bottom, var(--accent-green), var(--accent-yellow));
       top: 0;
       bottom: 0;
       left: 50%;
       margin-left: -3px;
+      border-radius: 3px;
+      box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
     }
 
     .timeline-container {
@@ -98,11 +289,12 @@
       width: 25px;
       height: 25px;
       right: -13px;
-      background-color: white;
-      border: 4px solid var(--secondary-color);
+      background: var(--accent-yellow);
+      border: 4px solid var(--accent-green);
       top: 20px;
       border-radius: 50%;
       z-index: 1;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
     }
 
     .left {
@@ -113,61 +305,61 @@
       left: 50%;
     }
 
-    .left::before {
-      content: " ";
-      height: 0;
-      position: absolute;
-      top: 22px;
-      width: 0;
-      z-index: 1;
-      right: 30px;
-      border: medium solid var(--primary-color);
-      border-width: 10px 0 10px 10px;
-      border-color: transparent transparent transparent var(--primary-color);
-    }
-
-    .right::before {
-      content: " ";
-      height: 0;
-      position: absolute;
-      top: 22px;
-      width: 0;
-      z-index: 1;
-      left: 30px;
-      border: medium solid var(--primary-color);
-      border-width: 10px 10px 10px 0;
-      border-color: transparent var(--primary-color) transparent transparent;
-    }
-
     .right::after {
       left: -12px;
     }
 
     .timeline-content {
-      padding: 20px 30px;
-      background-color: white;
+      padding: 2rem;
+      background: var(--card-bg);
       position: relative;
-      border-radius: 6px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.12);
-    }
-
-    .timeline-content h3 {
-      color: var(--primary-color);
-      margin-bottom: 15px;
+      border-radius: 15px;
+      box-shadow: var(--card-shadow);
+      color: var(--text-dark);
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
     .timeline-date {
       display: inline-block;
-      background-color: var(--secondary-color);
-      color: var(--primary-color);
-      padding: 5px 10px;
-      border-radius: 20px;
+      background: linear-gradient(45deg, var(--accent-green), var(--accent-yellow));
+      color: var(--text-dark);
+      padding: 0.5rem 1rem;
+      border-radius: 25px;
       font-weight: bold;
-      margin-bottom: 10px;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
     }
 
-    /* Timeline responsive */
+    /* Blog Section */
+    .blog-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      height: 100%;
+    }
+
+    .blog-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+    }
+
+    .blog-card .card-body {
+      padding: 2rem;
+      color: var(--text-dark);
+    }
+
+    /* Responsive */
     @media screen and (max-width: 768px) {
+      .hero-title {
+        font-size: 2.5rem;
+      }
+      
+      .hero-subtitle {
+        font-size: 1.2rem;
+      }
+
       .timeline::after {
         left: 31px;
       }
@@ -176,13 +368,6 @@
         width: 100%;
         padding-left: 70px;
         padding-right: 25px;
-      }
-      
-      .timeline-container::before {
-        left: 60px;
-        border: medium solid var(--primary-color);
-        border-width: 10px 10px 10px 0;
-        border-color: transparent var(--primary-color) transparent transparent;
       }
 
       .left::after, .right::after {
@@ -194,48 +379,105 @@
       }
     }
 
-    /* Parceiros section styling */
-    .partner-img {
-      height: 120px;
-      object-fit: contain;
-      margin: 0 20px;
-    }
-
-    /* Rodapé */
+    /* Footer */
     footer {
-      background-color: var(--primary-color);
-      color: #fff;
-    }
-    footer a {
-      color: #fff;
-      text-decoration: none;
-    }
-    footer a:hover {
-      color: var(--secondary-color);
-      text-decoration: underline;
-    }
-    
-    /* Botões */
-    .btn-primary {
-      background-color: var(--primary-color);
-      border-color: var(--primary-color);
-    }
-    
-    .btn-primary:hover {
-      background-color: #082720;
-      border-color: #082720;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      color: var(--text-light);
+      padding: 3rem 0;
+      margin-top: 0;
     }
 
-    .card-header {
-      background-color: var(--primary-color) !important;
+    footer a {
+      color: var(--accent-green);
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    footer a:hover {
+      color: var(--accent-yellow);
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    }
+
+    /* Section Headers */
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-title {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      background: linear-gradient(45deg, var(--accent-green), var(--accent-yellow));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .section-subtitle {
+      font-size: 1.2rem;
+      color: rgba(255, 255, 255, 0.8);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Contact Form */
+    .contact-form {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 3rem;
+      box-shadow: var(--card-shadow);
+      color: var(--text-dark);
+    }
+
+    .form-control {
+      border-radius: 10px;
+      border: 2px solid rgba(0, 0, 0, 0.1);
+      padding: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+      border-color: var(--accent-green);
+      box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+    }
+
+    /* Animations */
+    .fade-in {
+      animation: fadeIn 0.8s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .slide-in-left {
+      animation: slideInLeft 0.8s ease-out;
+    }
+
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-50px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .slide-in-right {
+      animation: slideInRight 0.8s ease-out;
+    }
+
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(50px); }
+      to { opacity: 1; transform: translateX(0); }
     }
   </style>
 </head>
 <body>
   <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark">
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
     <div class="container">
-      <a class="navbar-brand" href="#">RescueFlow</a>
+      <a class="navbar-brand" href="#">
+        <i class="bi bi-lightning-charge-fill me-2"></i>RescueFlow
+      </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -246,7 +488,6 @@
           <li class="nav-item"><a class="nav-link" href="#competitors">Concorrentes</a></li>
           <li class="nav-item"><a class="nav-link" href="#requirements">Requisitos</a></li>
           <li class="nav-item"><a class="nav-link" href="#challenges">Desafios</a></li>
-          <li class="nav-item"><a class="nav-link" href="#partners">Parceiros</a></li>
           <li class="nav-item"><a class="nav-link" href="#team">Equipa</a></li>
           <li class="nav-item"><a class="nav-link" href="#schedule">Calendário</a></li>
           <li class="nav-item"><a class="nav-link" href="#contact">Contactos</a></li>
@@ -255,84 +496,112 @@
     </div>
   </nav>
 
-  <!-- Banner Section with RescueFlow Logo -->
-  <section class="banner-section">
+  <!-- Hero Section -->
+  <section class="hero-section">
     <div class="container">
-      <div class="logo-container">
-        <img src="images/rescueflow.png" alt="RescueFlow - Cada Segundo Conta" class="img-fluid">
+      <div class="hero-content fade-in">
+        <h1 class="hero-title">RESCUE FLOW</h1>
+        <p class="hero-tagline">Every Second Counts</p>
+        <p class="hero-subtitle">Sistema inteligente de coordenação de semáforos para veículos de emergência</p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+          <a href="#about" class="btn btn-primary-modern btn-modern">Descobrir Mais</a>
+          <a href="blog.html" class="btn btn-outline-modern btn-modern">Ver Blog</a>
+        </div>
       </div>
-      <p class="lead mt-3">Sistema inteligente de coordenação de semáforos para veículos de emergência</p>
-      <a href="#blog" class="btn btn-primary mt-3">Saiba Mais</a>
     </div>
   </section>
 
-  <!-- Blog do Projeto (Only Latest 2 Posts) -->
-  <section id="blog" class="py-5">
+  <!-- Blog do Projeto -->
+  <section id="blog" class="section section-light">
     <div class="container">
-      <h2 class="text-center mb-5">Blog do Projeto</h2>
+      <div class="section-header">
+        <h2 class="section-title">Blog do Projeto</h2>
+        <p class="section-subtitle">Acompanhe o desenvolvimento e os insights do nosso projeto</p>
+      </div>
       <div class="row g-4 justify-content-center">
-        <!-- Latest Post (Post #4) -->
-        <div class="col-md-5 blog-post">
-          <div class="card h-100">
-              <div class="card-body">
-                  <h5>Testemunho de um Ex-Condutor de Ambulância</h5>
+        <!-- Latest Post -->
+        <div class="col-md-5">
+          <div class="blog-card">
+            <div class="card-body">
+              <h5 class="fw-bold">Testemunho de um Ex-Condutor de Ambulância</h5>
               <p class="text-muted">Data: 15 de Abril 2025</p>
               <p class="mb-3">
                 Mafalda e Joana conversam com um experiente ex-condutor de ambulância sobre os 
                 obstáculos que enfrentou durante anos e como a tecnologia poderia ter feito diferença...
               </p>
-              <a href="blog-post-4.html" class="btn btn-outline-success">Ler mais</a>
+              <a href="blog-post-4.html" class="btn btn-primary-modern btn-modern">Ler mais</a>
             </div>
           </div>
         </div>
         
-        <!-- 2nd Latest Post (Post #3) -->
-        <div class="col-md-5 blog-post">
-          <div class="card h-100">
+        <!-- 2nd Latest Post -->
+        <div class="col-md-5">
+          <div class="blog-card">
             <div class="card-body">
-              <h5>Testemunho de um Condutor em Atividade</h5>
+              <h5 class="fw-bold">Testemunho de um Condutor em Atividade</h5>
               <p class="text-muted">Data: 2 de Abril 2025</p>
               <p class="mb-3">
                 Henrique e Dinis entrevistam um condutor de ambulância em atividade que compartilha
                 sua experiência diária nas ruas e os desafios de navegar no trânsito urbano...
               </p>
-              <a href="blog-post-3.html" class="btn btn-outline-success">Ler mais</a>
+              <a href="blog-post-3.html" class="btn btn-primary-modern btn-modern">Ler mais</a>
             </div>
           </div>
         </div>
       </div>
-      <div class="text-center mt-4">
-        <a href="blog.html" class="btn btn-primary">Ver Todos os Posts</a>
+      <div class="text-center mt-5">
+        <a href="blog.html" class="btn btn-outline-modern btn-modern">Ver Todos os Posts</a>
       </div>
     </div>
   </section>
 
   <!-- Sobre o Projeto -->
-  <section id="about" class="py-5 bg-light">
+  <section id="about" class="section section-dark">
     <div class="container">
-      <h2 class="text-center mb-5">Sobre o Projeto</h2>
+      <div class="section-header">
+        <h2 class="section-title">Sobre o Projeto</h2>
+        <p class="section-subtitle">Cada segundo conta em situações de emergência</p>
+      </div>
       <div class="row g-4">
-        <div class="col-md-6">
-          <div class="card h-100 shadow">
-            <div class="card-body">
-              <h3 class="text-danger">Problema</h3>
-              <p>
-                Os atrasos no trânsito podem custar vidas em situações de emergência. O nosso
-                sistema visa reduzir o tempo de resposta através da coordenação inteligente
-                de semáforos, permitindo que veículos de emergência usufruam de uma "onda verde" 
-                para maior rapidez e segurança.
-              </p>
+        <div class="col-md-6 slide-in-left">
+          <div class="modern-card">
+            <div class="card-icon card-icon-problem">
+              <i class="bi bi-exclamation-triangle-fill"></i>
+            </div>
+            <h3 class="text-center mb-4">O Problema</h3>
+            <p>
+              Os atrasos no trânsito podem custar vidas em situações de emergência. Veículos de emergência 
+              enfrentam dificuldades para navegar em trânsito denso, especialmente em cruzamentos onde 
+              os semáforos não priorizam a passagem rápida.
+            </p>
+            <div class="mt-4">
+              <p><strong>🚨 Estatísticas alarmantes:</strong></p>
+              <ul>
+                <li>31% das ambulâncias demoram mais de 15 minutos para chegar a incidentes urbanos</li>
+                <li>Pelo menos uma ambulância sofre acidente a cada duas semanas devido ao trânsito</li>
+                <li>11 pessoas perderam a vida no ano passado porque a ajuda chegou tarde demais</li>
+              </ul>
             </div>
           </div>
         </div>
-        <div class="col-md-6">
-          <div class="card h-100 shadow">
-            <div class="card-body">
-              <h3 class="text-success">Solução</h3>
-              <ul class="list-unstyled">
-                <li>✅ Rede de sensores integrados</li>
-                <li>🚦 Sincronização de "onda verde"</li>
-                <li>🚑 Integração com sistemas de emergência (ambulâncias, bombeiros, etc.)</li>
+        <div class="col-md-6 slide-in-right">
+          <div class="modern-card">
+            <div class="card-icon card-icon-solution">
+              <i class="bi bi-check-circle-fill"></i>
+            </div>
+            <h3 class="text-center mb-4">Nossa Solução</h3>
+            <p>
+              O RescueFlow cria uma "onda verde" inteligente que coordena semáforos automaticamente 
+              quando veículos de emergência se aproximam, garantindo passagem rápida e segura.
+            </p>
+            <div class="mt-4">
+              <p><strong>🚀 Principais características:</strong></p>
+              <ul>
+                <li>📡 Localização GPS em tempo real</li>
+                <li>🚦 Sincronização automática de semáforos</li>
+                <li>🛡️ Sistema de segurança integrado</li>
+                <li>🌍 Uso da infraestrutura existente</li>
+                <li>⚡ Resposta em tempo real</li>
               </ul>
             </div>
           </div>
@@ -341,35 +610,41 @@
     </div>
   </section>
 
-  <!-- Remaining sections unchanged -->
   <!-- Concorrentes e Trabalhos Anteriores -->
-  <section id="competitors" class="py-5">
+  <section id="competitors" class="section section-light">
     <div class="container">
-      <h2 class="text-center mb-5">Concorrentes e Trabalhos Anteriores</h2>
-      <div class="row">
+      <div class="section-header">
+        <h2 class="section-title">Concorrentes</h2>
+        <p class="section-subtitle">Análise do estado atual da tecnologia</p>
+      </div>
+      <div class="row g-4">
         <div class="col-md-6">
-          <div class="card mb-4 h-100 shadow">
-            <div class="card-header text-white">
-              Baseados em Lisboa
+          <div class="modern-card">
+            <h4 class="text-center mb-4">
+              <i class="bi bi-geo-alt-fill text-primary me-2"></i>Baseados em Lisboa
+            </h4>
+            <div class="mb-3">
+              <h6><strong>Project Gertrude (1985-2021)</strong></h6>
+              <p>Utilizado pela EMEL para gestão de tráfego, mas sem capacidade de adaptação em tempo real.</p>
             </div>
-            <div class="card-body">
-              <ul>
-                <li>Project Gertrude, em utilização desde 1985 até 2021 pela EMEL</li>
-                <li>Project SIM.Lx, em utilização desde 2021 pela EMEL</li>
-              </ul>
+            <div>
+              <h6><strong>Project SIM.Lx (desde 2021)</strong></h6>
+              <p>Sistema atual da EMEL, mais moderno mas ainda sem foco específico em veículos de emergência.</p>
             </div>
           </div>
         </div>
         <div class="col-md-6">
-          <div class="card mb-4 h-100 shadow">
-            <div class="card-header text-white">
-              Fora de Lisboa
+          <div class="modern-card">
+            <h4 class="text-center mb-4">
+              <i class="bi bi-globe text-success me-2"></i>Soluções Internacionais
+            </h4>
+            <div class="mb-3">
+              <h6><strong>Opticom</strong></h6>
+              <p>Sistema da Global Traffic Technologies, funcional mas requer equipamentos específicos e custosos.</p>
             </div>
-            <div class="card-body">
-              <ul>
-                <li>Opticom, da Global Traffic Technologies</li>
-                <li>Tomar Strobecom</li>
-              </ul>
+            <div>
+              <h6><strong>Tomar Strobecom</strong></h6>
+              <p>Solução baseada em deteção de luz estroboscópica, simples mas suscetível a interferências.</p>
             </div>
           </div>
         </div>
@@ -378,26 +653,35 @@
   </section>
 
   <!-- Requisitos da Solução -->
-  <section id="requirements" class="py-5 bg-light">
+  <section id="requirements" class="section section-dark">
     <div class="container">
-      <h2 class="text-center mb-5">Requisitos da Solução</h2>
-      <div class="card shadow">
-        <div class="card-body">
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <h5 class="text-success"><i class="bi bi-check-circle"></i> Prevenção e Reação</h5>
-              <p>
-                O sistema deve ser capaz de prevenir tráfego numa rota específica e reagir ao movimento do
-                veículo de emergência, mantendo rotas de "escape" livres para emergências.
-              </p>
+      <div class="section-header">
+        <h2 class="section-title">Requisitos da Solução</h2>
+        <p class="section-subtitle">Características essenciais para um sistema eficaz</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-6">
+          <div class="modern-card">
+            <div class="text-center mb-4">
+              <i class="bi bi-shield-check text-success" style="font-size: 3rem;"></i>
             </div>
-            <div class="col-md-6 mb-3">
-              <h5 class="text-success"><i class="bi bi-gear"></i> Confiabilidade</h5>
-              <p>
-                O sistema deve reagir rapidamente a mudanças, manter comunicação constante, 
-                nunca se desligar e ter um backup em caso de falha elétrica.
-              </p>
+            <h5 class="text-center">Prevenção e Reação</h5>
+            <p>
+              O sistema deve ser capaz de prevenir tráfego numa rota específica e reagir instantaneamente 
+              ao movimento do veículo de emergência, mantendo rotas de "escape" livres para emergências.
+            </p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="modern-card">
+            <div class="text-center mb-4">
+              <i class="bi bi-lightning-charge text-warning" style="font-size: 3rem;"></i>
             </div>
+            <h5 class="text-center">Confiabilidade Total</h5>
+            <p>
+              Resposta rápida a mudanças, comunicação constante 24/7, sistema de backup para falhas 
+              elétricas e escalabilidade para integração com outros sistemas de emergência.
+            </p>
           </div>
         </div>
       </div>
@@ -405,157 +689,137 @@
   </section>
 
   <!-- Desafios Técnicos -->
-  <section id="challenges" class="py-5">
+  <section id="challenges" class="section section-light">
     <div class="container">
-      <h2 class="text-center mb-5">Desafios Técnicos</h2>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="card mb-4 shadow h-100">
-            <div class="card-header text-white">
-              Detecção e Automação
-            </div>
-            <div class="card-body">
-              <p>
-                Os principais desafios técnicos envolvem projetar um algoritmo capaz de detetar quando 
-                uma ambulância se aproxima dentro de um certo raio, ativando as luzes e sinais automaticamente.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="card mb-4 shadow h-100">
-            <div class="card-header text-white">
-              Cobertura e Integração
-            </div>
-            <div class="card-body">
-              <p>
-                Cruzamentos e rotundas sem semáforos são difíceis de contabilizar, pois o sistema não teria 
-                "visibilidade" sobre esses segmentos de tráfego. A integração contínua com os sistemas das 
-                ambulâncias também representa um desafio significativo.
-              </p>
-            </div>
-          </div>
-        </div>
+      <div class="section-header">
+        <h2 class="section-title">Desafios Técnicos</h2>
+        <p class="section-subtitle">Superando as complexidades da implementação</p>
       </div>
-    </div>
-  </section>
-
-  <!-- Parceiros -->
-  <section id="partners" class="py-5 bg-light">
-    <div class="container">
-      <h2 class="text-center mb-5">Parceiros</h2>
-      <div class="text-center">
-        <img src="images/EMEL_logo.png" alt="EMEL" class="partner-img">
-        <img src="images/INEM_logo.png" alt="INEM" class="partner-img">
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="modern-card text-center">
+            <div class="card-icon" style="background: linear-gradient(45deg, #ff6b35, #f7931e);">
+              <i class="bi bi-cpu"></i>
+            </div>
+            <h5>Detecção Inteligente</h5>
+            <p>Desenvolvimento de algoritmos capazes de detetar ambulâncias e ativar automaticamente os sistemas de prioridade.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="modern-card text-center">
+            <div class="card-icon" style="background: linear-gradient(45deg, #667eea, #764ba2);">
+              <i class="bi bi-diagram-3"></i>
+            </div>
+            <h5>Cobertura Total</h5>
+            <p>Integração com cruzamentos sem semáforos e garantia de visibilidade total do sistema sobre o tráfego urbano.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="modern-card text-center">
+            <div class="card-icon" style="background: linear-gradient(45deg, #f093fb, #f5576c);">
+              <i class="bi bi-broadcast"></i>
+            </div>
+            <h5>Comunicação V2I</h5>
+            <p>Estabelecimento de comunicação confiável e imediata entre veículos de emergência e infraestrutura urbana.</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- Equipa -->
-  <section id="team" class="py-5">
+  <section id="team" class="section section-dark">
     <div class="container">
-      <h2 class="text-center mb-5">Nossa Equipa</h2>
+      <div class="section-header">
+        <h2 class="section-title">Nossa Equipa</h2>
+        <p class="section-subtitle">Os especialistas por trás do RescueFlow</p>
+      </div>
       <div class="row g-4">
-        <!-- Bloco 1: Dinis Silva -->
         <div class="col-md-4">
-          <div class="card team-card h-100 text-center">
-            <div class="card-body">
-              <img src="images/team/Dinis-Silva.jpeg" alt="Dinis Silva" class="team-photo">
-              <h5 class="fw-bold">Dinis Silva</h5>
-              <p class="text-muted">Testes e Coordenação</p>
-              <ul class="list-unstyled text-start">
-                <li>• Desenvolvimento de testes</li>
-                <li>• Produção de vídeo</li>
-                <li>• Consultoria de parceiros</li>
-              </ul>
-            </div>
+          <div class="team-card">
+            <img src="images/team/Dinis-Silva.jpeg" alt="Dinis Silva" class="team-photo">
+            <h5 class="fw-bold">Dinis Silva</h5>
+            <p class="text-muted mb-3">Testes e Coordenação</p>
+            <ul class="list-unstyled text-start">
+              <li>🧪 Desenvolvimento de testes</li>
+              <li>🎥 Produção de vídeo</li>
+              <li>🤝 Consultoria de parceiros</li>
+            </ul>
           </div>
         </div>
-        <!-- Bloco 2: Mafalda Lopes -->
         <div class="col-md-4">
-          <div class="card team-card h-100 text-center">
-            <div class="card-body">
-              <img src="images/team/Mafalda-Lopes.jpeg" alt="Mafalda Lopes" class="team-photo">
-              <h5 class="fw-bold">Mafalda Lopes</h5>
-              <p class="text-muted">Semáforos e Documentação</p>
-              <ul class="list-unstyled text-start">
-                <li>• Desenvolvimento de semáforos</li>
-                <li>• Pitch deck</li>
-                <li>• Desenvolvimento de maquete</li>
-              </ul>
-            </div>
+          <div class="team-card">
+            <img src="images/team/Mafalda-Lopes.jpeg" alt="Mafalda Lopes" class="team-photo">
+            <h5 class="fw-bold">Mafalda Lopes</h5>
+            <p class="text-muted mb-3">Semáforos e Documentação</p>
+            <ul class="list-unstyled text-start">
+              <li>🚦 Desenvolvimento de semáforos</li>
+              <li>📊 Pitch deck</li>
+              <li>🏗️ Desenvolvimento de maquete</li>
+            </ul>
           </div>
         </div>
-        <!-- Bloco 3: Henrique Rodrigues -->
         <div class="col-md-4">
-          <div class="card team-card h-100 text-center">
-            <div class="card-body">
-              <img src="images/team/Henrique-Rodrigues.jpeg" alt="Henrique Rodrigues" class="team-photo">
-              <h5 class="fw-bold">Henrique Rodrigues</h5>
-              <p class="text-muted">Comunicação e Web</p>
-              <ul class="list-unstyled text-start">
-                <li>• Comunicação com ambulâncias</li>
-                <li>• Site e blog</li>
-                <li>• Consultoria de parceiros</li>
-              </ul>
-            </div>
+          <div class="team-card">
+            <img src="images/team/Henrique-Rodrigues.jpeg" alt="Henrique Rodrigues" class="team-photo">
+            <h5 class="fw-bold">Henrique Rodrigues</h5>
+            <p class="text-muted mb-3">Comunicação e Web</p>
+            <ul class="list-unstyled text-start">
+              <li>📞 Comunicação com ambulâncias</li>
+              <li>🌐 Site e blog</li>
+              <li>🤝 Consultoria de parceiros</li>
+            </ul>
           </div>
         </div>
       </div>
-      <div class="row g-4 mt-4">
-        <!-- Bloco 4: Martim Sousa -->
+      <div class="row g-4 mt-2">
         <div class="col-md-4">
-          <div class="card team-card h-100 text-center">
-            <div class="card-body">
-              <img src="images/team/Martim-Sousa.jpeg" alt="Martim Sousa" class="team-photo">
-              <h5 class="fw-bold">Martim Sousa</h5>
-              <p class="text-muted">Desenvolvimento GPS e Semáforos</p>
-              <ul class="list-unstyled text-start">
-                <li>• Desenvolvimento GPS</li>
-                <li>• Desenvolvimento semáforos</li>
-                <li>• Site e blog</li>
-              </ul>
-            </div>
+          <div class="team-card">
+            <img src="images/team/Martim-Sousa.jpeg" alt="Martim Sousa" class="team-photo">
+            <h5 class="fw-bold">Martim Sousa</h5>
+            <p class="text-muted mb-3">Desenvolvimento GPS e Semáforos</p>
+            <ul class="list-unstyled text-start">
+              <li>📍 Desenvolvimento GPS</li>
+              <li>🚦 Desenvolvimento semáforos</li>
+              <li>🌐 Site e blog</li>
+            </ul>
           </div>
         </div>
-        <!-- Bloco 5: Pedro Rodrigues -->
         <div class="col-md-4">
-          <div class="card team-card h-100 text-center">
-            <div class="card-body">
-              <img src="images/team/Pedro-Rodrigues.jpeg" alt="Pedro Rodrigues" class="team-photo">
-              <h5 class="fw-bold">Pedro Rodrigues</h5>
-              <p class="text-muted">Comunicação e Media</p>
-              <ul class="list-unstyled text-start">
-                <li>• Comunicação com ambulâncias</li>
-                <li>• Produção de vídeo</li>
-                <li>• Desenvolvimento de poster</li>
-              </ul>
-            </div>
+          <div class="team-card">
+            <img src="images/team/Pedro-Rodrigues.jpeg" alt="Pedro Rodrigues" class="team-photo">
+            <h5 class="fw-bold">Pedro Rodrigues</h5>
+            <p class="text-muted mb-3">Comunicação e Media</p>
+            <ul class="list-unstyled text-start">
+              <li>📞 Comunicação com ambulâncias</li>
+              <li>🎥 Produção de vídeo</li>
+              <li>📄 Desenvolvimento de poster</li>
+            </ul>
           </div>
         </div>
-        <!-- Bloco 6: Joana Teixeira -->
         <div class="col-md-4">
-          <div class="card team-card h-100 text-center">
-            <div class="card-body">
-              <img src="images/team/Joana-Teixeira.jpeg" alt="Joana Teixeira" class="team-photo">
-              <h5 class="fw-bold">Joana Teixeira</h5>
-              <p class="text-muted">Comunicação e Design</p>
-              <ul class="list-unstyled text-start">
-                <li>• Comunicação com ambulâncias</li>
-                <li>• Desenvolvimento de poster</li>
-                <li>• Desenvolvimento de maquete</li>
-              </ul>
-            </div>
+          <div class="team-card">
+            <img src="images/team/Joana-Teixeira.jpeg" alt="Joana Teixeira" class="team-photo">
+            <h5 class="fw-bold">Joana Teixeira</h5>
+            <p class="text-muted mb-3">Comunicação e Design</p>
+            <ul class="list-unstyled text-start">
+              <li>📞 Comunicação com ambulâncias</li>
+              <li>📄 Desenvolvimento de poster</li>
+              <li>🏗️ Desenvolvimento de maquete</li>
+            </ul>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Calendário - TIMELINE -->
-  <section id="schedule" class="py-5 bg-light">
+  <!-- Calendário -->
+  <section id="schedule" class="section section-light">
     <div class="container">
-      <h2 class="text-center mb-5">Calendário do Projeto</h2>
+      <div class="section-header">
+        <h2 class="section-title">Calendário do Projeto</h2>
+        <p class="section-subtitle">Fases de desenvolvimento do RescueFlow</p>
+      </div>
       
       <div class="timeline">
         <!-- Fase 1 -->
@@ -601,29 +865,36 @@
   </section>
 
   <!-- Contactos -->
-  <section id="contact" class="py-5">
+  <section id="contact" class="section section-dark">
     <div class="container">
-      <h2 class="text-center mb-5">Contacte-nos</h2>
+      <div class="section-header">
+        <h2 class="section-title">Contacte-nos</h2>
+        <p class="section-subtitle">Tem questões sobre o RescueFlow? Estamos aqui para ajudar</p>
+      </div>
       <div class="row justify-content-center">
-        <div class="col-md-6">
-          <div class="card shadow">
-            <div class="card-body">
-              <form action="mailto:henrique.d.sousa.rodrigues@tecnico.ulisboa.pt" method="post" enctype="text/plain">
-                <div class="mb-3">
+        <div class="col-md-8">
+          <div class="contact-form">
+            <form action="mailto:henrique.d.sousa.rodrigues@tecnico.ulisboa.pt" method="post" enctype="text/plain">
+              <div class="row g-3">
+                <div class="col-md-6">
                   <label for="name" class="form-label">Nome</label>
                   <input type="text" class="form-control" id="name" required />
                 </div>
-                <div class="mb-3">
+                <div class="col-md-6">
                   <label for="email" class="form-label">Email</label>
                   <input type="email" class="form-control" id="email" required />
                 </div>
-                <div class="mb-3">
-                  <label for="message" class="form-label">Mensagem</label>
-                  <textarea class="form-control" id="message" rows="4" required></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Enviar Mensagem</button>
-              </form>
-            </div>
+              </div>
+              <div class="mb-3 mt-3">
+                <label for="message" class="form-label">Mensagem</label>
+                <textarea class="form-control" id="message" rows="4" required></textarea>
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary-modern btn-modern">
+                  <i class="bi bi-send me-2"></i>Enviar Mensagem
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -631,27 +902,65 @@
   </section>
 
   <!-- Footer -->
-  <footer class="py-4">
-    <div class="container text-center">
+  <footer>
+    <div class="container">
       <div class="row">
         <div class="col-md-4 mb-3">
-          <h5>Parceiros</h5>
-          <p>EMEL | INEM | Técnico Lisboa</p>
+          <h5><i class="bi bi-lightning-charge-fill me-2"></i>RescueFlow</h5>
+          <p>Every Second Counts - Salvando vidas através da tecnologia inteligente.</p>
         </div>
-        <div class="col-md-4 mb-3">
+        <div class="col-md-4 mb-3 text-center">
           <h5>Contacto</h5>
-          <p><a href="mailto:henrique.d.sousa.rodrigues@tecnico.ulisboa.pt">
-            henrique.d.sousa.rodrigues@tecnico.ulisboa.pt
-          </a></p>
+          <p>
+            <a href="mailto:henrique.d.sousa.rodrigues@tecnico.ulisboa.pt">
+              <i class="bi bi-envelope me-2"></i>henrique.d.sousa.rodrigues@tecnico.ulisboa.pt
+            </a>
+          </p>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 text-end">
           <h5>Projeto PI366</h5>
           <p>© 2025 RescueFlow Team</p>
+          <p>Instituto Superior Técnico</p>
         </div>
       </div>
     </div>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Add animation classes when elements come into view
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.animationDelay = '0.2s';
+          entry.target.classList.add('fade-in');
+        }
+      });
+    }, observerOptions);
+
+    // Observe all cards and sections
+    document.querySelectorAll('.modern-card, .team-card, .blog-card').forEach(el => {
+      observer.observe(el);
+    });
+  </script>
 </body>
 </html>

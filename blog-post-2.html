@@ -8,85 +8,321 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   <style>
     :root {
-      --primary-color: #0B3C30; 
-      --secondary-color: #FFD600; 
-      --accent-color: #0B3C30;  
+      --primary-gradient: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #3d7ebb 100%);
+      --secondary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --accent-green: #00ff88;
+      --accent-yellow: #ffd700;
+      --accent-orange: #ff6b35;
+      --accent-pink: #ff3d71;
+      --text-light: #ffffff;
+      --text-dark: #1a1a1a;
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--primary-gradient);
+      color: var(--text-light);
+      overflow-x: hidden;
+    }
+
+    /* Navbar */
     .navbar {
-      background-color: var(--primary-color) !important;
+      background: rgba(30, 60, 114, 0.95) !important;
+      backdrop-filter: blur(10px);
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
-    footer {
-      background-color: #333;
-      color: #fff;
+
+    .navbar-brand {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--accent-green) !important;
+      text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
     }
-    footer a {
-      color: #fff;
+
+    .navbar-nav .nav-link {
+      color: var(--text-light) !important;
+      font-weight: 500;
+      margin: 0 0.5rem;
+      transition: all 0.3s ease;
+      position: relative;
     }
-    
+
+    .navbar-nav .nav-link:hover {
+      color: var(--accent-green) !important;
+      transform: translateY(-2px);
+    }
+
+    .navbar-nav .nav-link.active {
+      color: var(--accent-yellow) !important;
+    }
+
+    /* Main Content Layout */
+    .main-content {
+      margin-top: 100px;
+      padding: 2rem 0 4rem;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: var(--card-shadow);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--text-dark);
+      position: sticky;
+      top: 120px;
+      height: fit-content;
+    }
+
+    .sidebar h3 {
+      color: var(--text-dark);
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .list-group {
+      border-radius: 15px;
+      overflow: hidden;
+    }
+
+    .list-group-item {
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      color: var(--text-dark);
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+
+    .list-group-item:hover {
+      background: linear-gradient(45deg, var(--accent-green), #00cc70);
+      color: var(--text-dark);
+      transform: translateX(5px);
+    }
+
+    .list-group-item.active {
+      background: linear-gradient(45deg, var(--accent-green), var(--accent-yellow));
+      border-color: var(--accent-green);
+      color: var(--text-dark);
+    }
+
+    .btn-back {
+      background: linear-gradient(45deg, var(--accent-green), #00cc70);
+      color: var(--text-dark);
+      border: none;
+      padding: 1rem;
+      border-radius: 15px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: block;
+      text-align: center;
+      box-shadow: 0 8px 25px rgba(0, 255, 136, 0.3);
+    }
+
+    .btn-back:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 35px rgba(0, 255, 136, 0.4);
+      color: var(--text-dark);
+      text-decoration: none;
+    }
+
+    /* Blog Content */
+    .blog-content {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 3rem;
+      box-shadow: var(--card-shadow);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--text-dark);
+    }
+
+    .blog-content h2 {
+      color: var(--text-dark);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      background: linear-gradient(45deg, var(--accent-green), var(--accent-yellow));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .blog-content h4 {
+      margin-top: 2.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--text-dark);
+      font-weight: 600;
+      border-bottom: 2px solid var(--accent-green);
+      padding-bottom: 0.5rem;
+    }
+
+    .blog-content h5 {
+      color: var(--text-dark);
+      font-weight: 600;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      border-left: 4px solid var(--accent-green);
+      padding-left: 1rem;
+    }
+
     .blog-content img {
       max-width: 100%;
-      border-radius: 8px;
-      margin: 20px 0;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      border-radius: 15px;
+      margin: 2rem 0;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
     }
-    
+
     .blog-content blockquote {
-      background-color: #f9f9f9;
-      border-left: 4px solid var(--primary-color);
-      padding: 15px 20px;
-      margin: 20px 0;
-      border-radius: 0 8px 8px 0;
+      background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(255, 215, 0, 0.1));
+      border-left: 4px solid var(--accent-green);
+      padding: 1.5rem 2rem;
+      margin: 2rem 0;
+      border-radius: 0 15px 15px 0;
+      font-style: italic;
     }
-    
-    .blog-content h4 {
-      margin-top: 30px;
-      color: var(--primary-color);
-      font-weight: 600;
+
+    .blog-content p {
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+      color: #333;
     }
-    
-    .btn-primary {
-      background-color: var(--primary-color);
-      border-color: var(--primary-color);
+
+    .blog-content ul {
+      margin-bottom: 1.5rem;
     }
-    
-    .btn-primary:hover {
-      background-color: #082720;
-      border-color: #082720;
+
+    .blog-content ul li {
+      margin-bottom: 0.5rem;
+      color: #333;
     }
-    
-    .list-group-item.active {
-      background-color: var(--primary-color);
-      border-color: var(--primary-color);
+
+    .text-muted {
+      color: #666 !important;
+      font-style: italic;
     }
-    
-    .text-box {
-      background-color: #f8f9fa;
-      border-left: 4px solid var(--primary-color);
-      padding: 15px 20px;
-      margin: 20px 0;
-      border-radius: 0 8px 8px 0;
+
+    .card {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
     }
-    
+
+    .card-body {
+      padding: 2rem;
+    }
+
+    /* Special styling for key points box */
     .key-points {
-      background-color: rgba(11, 60, 48, 0.1);
-      border-radius: 8px;
-      padding: 20px;
-      margin-bottom: 25px;
+      background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(255, 215, 0, 0.1));
+      border-radius: 15px;
+      padding: 2rem;
+      margin: 2rem 0;
+      border: 2px solid var(--accent-green);
     }
-    
+
     .key-points h5 {
-      color: var(--primary-color);
-      border-bottom: 2px solid var(--secondary-color);
+      color: var(--text-dark);
+      border-bottom: 2px solid var(--accent-yellow);
       padding-bottom: 10px;
       margin-bottom: 15px;
+      border-left: none;
+      padding-left: 0;
+    }
+
+    .text-box {
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+      border-left: 4px solid var(--accent-green);
+      padding: 2rem;
+      margin: 2rem 0;
+      border-radius: 0 15px 15px 0;
+    }
+
+    /* Footer */
+    footer {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      color: var(--text-light);
+      padding: 3rem 0;
+      margin-top: 4rem;
+    }
+
+    footer a {
+      color: var(--accent-green);
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    footer a:hover {
+      color: var(--accent-yellow);
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    }
+
+    /* Animations */
+    .fade-in {
+      animation: fadeIn 0.8s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .slide-in-left {
+      animation: slideInLeft 0.8s ease-out;
+    }
+
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-50px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .slide-in-right {
+      animation: slideInRight 0.8s ease-out;
+    }
+
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(50px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .main-content {
+        margin-top: 80px;
+      }
+      
+      .sidebar {
+        position: static;
+        margin-bottom: 2rem;
+      }
+      
+      .blog-content {
+        padding: 2rem;
+      }
     }
   </style>
 </head>
 <body>
   <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark">
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
     <div class="container">
-      <a class="navbar-brand" href="index.html">RescueFlow</a>
+      <a class="navbar-brand" href="index.html">
+        <i class="bi bi-lightning-charge-fill me-2"></i>RescueFlow
+      </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -101,142 +337,179 @@
     </div>
   </nav>
 
-  <!-- Layout do Conteúdo -->
-  <div class="container mt-4">
+  <!-- Main Content -->
+  <div class="container main-content">
     <div class="row">
-      <!-- Coluna esquerda - Entradas do Blog -->
-      <div class="col-md-3">
-        <h3>Entradas do Blog</h3>
-        <div class="list-group">
-          <a href="blog-post-1.html" class="list-group-item list-group-item-action">Post #1 (12/01/2025)</a>
-          <a href="blog-post-2.html" class="list-group-item list-group-item-action active">Post #2 (28/02/2025)</a>
-          <a href="blog-post-3.html" class="list-group-item list-group-item-action">Post #3 (02/04/2025)</a>
-          <a href="blog-post-4.html" class="list-group-item list-group-item-action">Post #4 (15/04/2025)</a>
-          <a href="blog-post-5.html" class="list-group-item list-group-item-action">Post #5 (21/04/2025)</a>
-          <a href="blog-post-6.html" class="list-group-item list-group-item-action">Post #6 (05/05/2025)</a>
-        </div>
-        
-        <div class="mt-4">
-          <a href="blog.html" class="btn btn-primary w-100">
-            <i class="bi bi-arrow-left"></i> Voltar ao Blog
-          </a>
+      <!-- Sidebar -->
+      <div class="col-md-3 slide-in-left">
+        <div class="sidebar">
+          <h3>Entradas do Blog</h3>
+          <div class="list-group">
+            <a href="blog-post-1.html" class="list-group-item list-group-item-action">Post #1 (12/01/2025)</a>
+            <a href="blog-post-2.html" class="list-group-item list-group-item-action active">Post #2 (28/02/2025)</a>
+            <a href="blog-post-3.html" class="list-group-item list-group-item-action">Post #3 (02/04/2025)</a>
+            <a href="blog-post-4.html" class="list-group-item list-group-item-action">Post #4 (15/04/2025)</a>
+            <a href="blog-post-5.html" class="list-group-item list-group-item-action">Post #5 (21/04/2025)</a>
+            <a href="blog-post-6.html" class="list-group-item list-group-item-action">Post #6 (05/05/2025)</a>
+          </div>
+          
+          <div class="mt-4">
+            <a href="blog.html" class="btn-back">
+              <i class="bi bi-arrow-left me-2"></i>Voltar ao Blog
+            </a>
+          </div>
         </div>
       </div>
       
-      <!-- Coluna direita - Conteúdo do Post -->
-      <div class="col-md-9 blog-content">
-        <h2>O Impacto da Sincronização de Semáforos</h2>
-        <p>Data: 28 de Fevereiro 2025</p>
-        <p class="text-muted">Por: Pedro Rodrigues e Joana Teixeira</p>
-        
-        <p>
-          À medida que nosso projeto avança, temos buscado compreender melhor os desafios reais enfrentados pelos veículos de emergência.
-          Para entender o impacto que nosso sistema poderia ter, entrevistamos António Santos, 
-          ex-condutor de ambulâncias com 15 anos de experiência em serviços de emergência em Lisboa. 
-          A conversa revelou desafios críticos enfrentados no dia a dia e confirmou o potencial transformador do nosso projeto.
-        </p>
-        
-        <div class="text-center my-4">
-          <img src="images/ambulance.png" alt="Veículo de emergência" class="img-fluid rounded" style="max-width: 60%;">
-        </div>
-        
-        <div class="key-points">
-          <h5><i class="bi bi-exclamation-triangle"></i> Desafios no Trânsito</h5>
+      <!-- Blog Content -->
+      <div class="col-md-9 slide-in-right">
+        <div class="blog-content fade-in">
+          <h2>O Impacto da Sincronização de Semáforos</h2>
+          <p><strong>Data:</strong> 28 de Fevereiro 2025</p>
+          <p class="text-muted">Por: Pedro Rodrigues e Joana Teixeira</p>
+          
           <p>
-            Os veículos de emergência enfrentam grandes dificuldades, especialmente em zonas de trânsito intenso e cruzamentos. 
-            Segundo o ex-condutor, os maiores obstáculos incluem:
+            À medida que nosso projeto avança, temos buscado compreender melhor os desafios reais enfrentados pelos veículos de emergência.
+            Para entender o impacto que nosso sistema poderia ter, entrevistamos António Santos, 
+            ex-condutor de ambulâncias com 15 anos de experiência em serviços de emergência em Lisboa. 
+            A conversa revelou desafios críticos enfrentados no dia a dia e confirmou o potencial transformador do nosso projeto.
+          </p>
+          
+          <div class="text-center my-4">
+            <img src="images/ambulance.png" alt="Veículo de emergência" class="img-fluid rounded">
+          </div>
+          
+          <div class="key-points">
+            <h5><i class="bi bi-exclamation-triangle text-warning me-2"></i>Desafios no Trânsito</h5>
+            <p>
+              Os veículos de emergência enfrentam grandes dificuldades, especialmente em zonas de trânsito intenso e cruzamentos. 
+              Segundo o ex-condutor, os maiores obstáculos incluem:
+            </p>
+            <ul>
+              <li><strong>Congestionamento:</strong> Trânsito denso e condutores desatentos, que nem sempre cedem passagem rapidamente.</li>
+              <li><strong>Densidade urbana:</strong> Ruas estreitas que dificultam a circulação, especialmente em centros históricos.</li>
+              <li><strong>Semáforos:</strong> Falta de prioridade em cruzamentos, pois, mesmo com sirenes ligadas, é necessário diminuir a velocidade.</li>
+              <li><strong>Imprevisibilidade:</strong> Dificuldade em prever a origem da ambulância, o que leva alguns condutores a fechar ainda mais a passagem, sem intenção.</li>
+            </ul>
+          </div>
+          
+          <div class="card mb-4">
+            <div class="card-body">
+              <blockquote class="blockquote mb-0">
+                <p>"Mesmo com sirenes ligadas, muitos condutores não sabem como reagir. Alguns até param no meio da via, bloqueando mais o trânsito."</p>
+                <footer class="blockquote-footer">António Santos, ex-condutor de ambulâncias</footer>
+              </blockquote>
+            </div>
+          </div>
+          
+          <h4>Sincronização automática dos semáforos: uma solução eficaz?</h4>
+          <p>
+            Após analisar os problemas identificados, perguntamos a António se a sincronização automática dos semáforos poderia fazer diferença.
+            Sua resposta foi entusiástica: "Ajudaria bastante. Resolveria muitos desafios e reduziria o risco de acidentes."
+          </p>
+          
+          <p>
+            António explicou que uma "onda verde" para ambulâncias facilitaria a circulação, especialmente em cruzamentos 
+            movimentados, evitando paragens desnecessárias e reduzindo significativamente o tempo de resposta - um fator crítico
+            em situações de vida ou morte.
+          </p>
+          
+          <div class="text-box">
+            <h5>Comparação com Sistemas Existentes</h5>
+            <p>A entrevista também nos permitiu comparar nossa proposta com soluções existentes:</p>
+            <ul>
+              <li><strong>Projeto Gertrudes (1985-2021):</strong> Apesar de sua longa história, não tinha capacidade de adaptação em tempo real para emergências.</li>
+              <li><strong>Projeto SIM.Lx (desde 2021):</strong> Mais moderno, mas ainda sem foco específico em veículos de emergência.</li>
+              <li><strong>Sistemas como Opticom:</strong> Soluções internacionais funcionais, mas que exigem equipamentos específicos e custosos.</li>
+            </ul>
+            <p>Nossa solução pretende ser mais acessível e integrada com a infraestrutura urbana existente.</p>
+          </div>
+          
+          <h4>Riscos e segurança</h4>
+          <p>
+            Apesar dos benefícios evidentes, António alertou sobre preocupações de segurança. Se os sinais mudarem de forma inesperada,
+            pode haver travagens bruscas e colisões. É essencial que qualquer sistema tenha como prioridade não apenas a rapidez,
+            mas também a segurança de todos os utilizadores da via.
+          </p>
+          
+          <p>
+            Para minimizar riscos, estamos desenvolvendo:
           </p>
           <ul>
-            <li><strong>Congestionamento:</strong> Trânsito denso e condutores desatentos, que nem sempre cedem passagem rapidamente.</li>
-            <li><strong>Densidade urbana:</strong> Ruas estreitas que dificultam a circulação, especialmente em centros históricos.</li>
-            <li><strong>Semáforos:</strong> Falta de prioridade em cruzamentos, pois, mesmo com sirenes ligadas, é necessário diminuir a velocidade.</li>
-            <li><strong>Imprevisibilidade:</strong> Dificuldade em prever a origem da ambulância, o que leva alguns condutores a fechar ainda mais a passagem, sem intenção.</li>
+            <li>✅ <strong>Sistemas inteligentes de aviso:</strong> Para que os condutores sejam alertados com antecedência sobre a aproximação de veículos de emergência.</li>
+            <li>✅ <strong>Transições suaves:</strong> Os semáforos devem mudar de forma previsível, dando tempo suficiente para os condutores reagirem.</li>
+            <li>✅ <strong>Monitorização constante:</strong> Garantindo que os semáforos sincronizados não criem novos problemas de trânsito.</li>
           </ul>
-        </div>
-        
-        <div class="card mb-4 bg-light">
-          <div class="card-body">
-            <blockquote class="blockquote mb-0">
-              <p>"Mesmo com sirenes ligadas, muitos condutores não sabem como reagir. Alguns até param no meio da via, bloqueando mais o trânsito."</p>
-              <footer class="blockquote-footer">António Santos, ex-condutor de ambulâncias</footer>
-            </blockquote>
-          </div>
-        </div>
-        
-        <h4>Sincronização automática dos semáforos: uma solução eficaz?</h4>
-        <p>
-          Após analisar os problemas identificados, perguntamos a António se a sincronização automática dos semáforos poderia fazer diferença.
-          Sua resposta foi entusiástica: "Ajudaria bastante. Resolveria muitos desafios e reduziria o risco de acidentes."
-        </p>
-        
-        <p>
-          António explicou que uma "onda verde" para ambulâncias facilitaria a circulação, especialmente em cruzamentos 
-          movimentados, evitando paragens desnecessárias e reduzindo significativamente o tempo de resposta - um fator crítico
-          em situações de vida ou morte.
-        </p>
-        
-        <div class="text-box">
-          <h5>Comparação com Sistemas Existentes</h5>
-          <p>A entrevista também nos permitiu comparar nossa proposta com soluções existentes:</p>
+          
+          <h4>Próximos passos do projeto</h4>
+          <p>
+            Com base nas informações recolhidas nesta entrevista, estamos refinando nosso projeto para incluir:
+          </p>
           <ul>
-            <li><strong>Projeto Gertrudes (1985-2021):</strong> Apesar de sua longa história, não tinha capacidade de adaptação em tempo real para emergências.</li>
-            <li><strong>Projeto SIM.Lx (desde 2021):</strong> Mais moderno, mas ainda sem foco específico em veículos de emergência.</li>
-            <li><strong>Sistemas como Opticom:</strong> Soluções internacionais funcionais, mas que exigem equipamentos específicos e custosos.</li>
+            <li>Priorização de cruzamentos nas zonas mais críticas da cidade</li>
+            <li>Desenvolvimento de um sistema de alertas visuais complementares aos semáforos</li>
+            <li>Criação de um algoritmo que considera variáveis como hora do dia e densidade de tráfego</li>
+            <li>Testes iniciais em ambientes controlados antes da implementação em áreas urbanas reais</li>
           </ul>
-          <p>Nossa solução pretende ser mais acessível e integrada com a infraestrutura urbana existente.</p>
+          
+          <h4>Conclusão</h4>
+          <p>
+            Melhorar o tempo de resposta das ambulâncias pode salvar vidas. A sincronização automática dos semáforos é uma 
+            solução promissora, mas deve ser implementada com segurança e considerando todos os utilizadores da via. Com o apoio 
+            de profissionais experientes como António Santos e tecnologia adequada, podemos tornar o trânsito mais 
+            eficiente e seguro para todos.
+          </p>
+          
+          <p>
+            No próximo post do blog, compartilharemos detalhes sobre o desenvolvimento técnico do nosso primeiro protótipo
+            e os resultados de testes iniciais. Acompanhe-nos para ver como este projeto evolui!
+          </p>
         </div>
-        
-        <h4>Riscos e segurança</h4>
-        <p>
-          Apesar dos benefícios evidentes, António alertou sobre preocupações de segurança. Se os sinais mudarem de forma inesperada,
-          pode haver travagens bruscas e colisões. É essencial que qualquer sistema tenha como prioridade não apenas a rapidez,
-          mas também a segurança de todos os utilizadores da via.
-        </p>
-        
-        <p>
-          Para minimizar riscos, estamos desenvolvendo:
-        </p>
-        <ul>
-          <li>✅ <strong>Sistemas inteligentes de aviso:</strong> Para que os condutores sejam alertados com antecedência sobre a aproximação de veículos de emergência.</li>
-          <li>✅ <strong>Transições suaves:</strong> Os semáforos devem mudar de forma previsível, dando tempo suficiente para os condutores reagirem.</li>
-          <li>✅ <strong>Monitorização constante:</strong> Garantindo que os semáforos sincronizados não criem novos problemas de trânsito.</li>
-        </ul>
-        
-        <h4>Próximos passos do projeto</h4>
-        <p>
-          Com base nas informações recolhidas nesta entrevista, estamos refinando nosso projeto para incluir:
-        </p>
-        <ul>
-          <li>Priorização de cruzamentos nas zonas mais críticas da cidade</li>
-          <li>Desenvolvimento de um sistema de alertas visuais complementares aos semáforos</li>
-          <li>Criação de um algoritmo que considera variáveis como hora do dia e densidade de tráfego</li>
-          <li>Testes iniciais em ambientes controlados antes da implementação em áreas urbanas reais</li>
-        </ul>
-        
-        <h4>Conclusão</h4>
-        <p>
-          Melhorar o tempo de resposta das ambulâncias pode salvar vidas. A sincronização automática dos semáforos é uma 
-          solução promissora, mas deve ser implementada com segurança e considerando todos os utilizadores da via. Com o apoio 
-          de profissionais experientes como António Santos e tecnologia adequada, podemos tornar o trânsito mais 
-          eficiente e seguro para todos.
-        </p>
-        
-        <p>
-          No próximo post do blog, compartilharemos detalhes sobre o desenvolvimento técnico do nosso primeiro protótipo
-          e os resultados de testes iniciais. Acompanhe-nos para ver como este projeto evolui!
-        </p>
       </div>
     </div>
   </div>
 
   <!-- Footer -->
-  <footer class="py-4 mt-5">
+  <footer>
     <div class="container text-center">
-      <p><a href="blog.html">Voltar ao Blog</a> | <a href="index.html">Página Principal</a></p>
-      <p>&copy; 2025 RescueFlow Team</p>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <h5><i class="bi bi-lightning-charge-fill me-2"></i>RescueFlow</h5>
+          <p>Every Second Counts</p>
+        </div>
+        <div class="col-md-4 mb-3">
+          <h5>Navegação</h5>
+          <p><a href="blog.html">Voltar ao Blog</a> | <a href="index.html">Página Principal</a></p>
+        </div>
+        <div class="col-md-4">
+          <h5>Projeto PI366</h5>
+          <p>&copy; 2025 RescueFlow Team</p>
+        </div>
+      </div>
     </div>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Add animation classes when elements come into view
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.animationDelay = '0.2s';
+          entry.target.classList.add('fade-in');
+        }
+      });
+    }, observerOptions);
+
+    // Observe all animated elements
+    document.querySelectorAll('.slide-in-left, .slide-in-right, .fade-in').forEach(el => {
+      observer.observe(el);
+    });
+  </script>
 </body>
 </html>

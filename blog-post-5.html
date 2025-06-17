@@ -8,156 +8,477 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   <style>
     :root {
-      --primary-color: #0B3C30; 
-      --secondary-color: #FFD600; 
-      --accent-color: #0B3C30;  
+      --primary-gradient: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #3d7ebb 100%);
+      --secondary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --accent-green: #00ff88;
+      --accent-yellow: #ffd700;
+      --accent-orange: #ff6b35;
+      --accent-pink: #ff3d71;
+      --text-light: #ffffff;
+      --text-dark: #1a1a1a;
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--primary-gradient);
+      color: var(--text-light);
+      overflow-x: hidden;
+    }
+
     .navbar {
-      background-color: var(--primary-color) !important;
+      background: rgba(30, 60, 114, 0.95) !important;
+      backdrop-filter: blur(10px);
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
-    footer {
-      background-color: #333;
-      color: #fff;
+
+    .navbar-brand {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--accent-green) !important;
+      text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
     }
-    footer a {
-      color: #fff;
+
+    .navbar-nav .nav-link {
+      color: var(--text-light) !important;
+      font-weight: 500;
+      margin: 0 0.5rem;
+      transition: all 0.3s ease;
+      position: relative;
     }
-    
+
+    .navbar-nav .nav-link:hover {
+      color: var(--accent-green) !important;
+      transform: translateY(-2px);
+    }
+
+    .navbar-nav .nav-link.active {
+      color: var(--accent-yellow) !important;
+    }
+
+    .main-content {
+      margin-top: 100px;
+      padding: 2rem 0 4rem;
+    }
+
+    .sidebar {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: var(--card-shadow);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--text-dark);
+      position: sticky;
+      top: 120px;
+      height: fit-content;
+    }
+
+    .sidebar h3 {
+      color: var(--text-dark);
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .list-group {
+      border-radius: 15px;
+      overflow: hidden;
+    }
+
+    .list-group-item {
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      color: var(--text-dark);
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+
+    .list-group-item:hover {
+      background: linear-gradient(45deg, var(--accent-green), #00cc70);
+      color: var(--text-dark);
+      transform: translateX(5px);
+    }
+
+    .list-group-item.active {
+      background: linear-gradient(45deg, var(--accent-green), var(--accent-yellow));
+      border-color: var(--accent-green);
+      color: var(--text-dark);
+    }
+
+    .btn-back {
+      background: linear-gradient(45deg, var(--accent-green), #00cc70);
+      color: var(--text-dark);
+      border: none;
+      padding: 1rem;
+      border-radius: 15px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: block;
+      text-align: center;
+      box-shadow: 0 8px 25px rgba(0, 255, 136, 0.3);
+    }
+
+    .btn-back:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 35px rgba(0, 255, 136, 0.4);
+      color: var(--text-dark);
+      text-decoration: none;
+    }
+
+    .blog-content {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 3rem;
+      box-shadow: var(--card-shadow);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--text-dark);
+    }
+
+    .blog-content h2 {
+      color: var(--text-dark);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      background: linear-gradient(45deg, var(--accent-green), var(--accent-yellow));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .blog-content h4 {
+      margin-top: 2.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--text-dark);
+      font-weight: 600;
+      border-bottom: 2px solid var(--accent-green);
+      padding-bottom: 0.5rem;
+    }
+
     .blog-content img {
       max-width: 100%;
-      border-radius: 8px;
-      margin: 20px 0;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      border-radius: 15px;
+      margin: 2rem 0;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
     }
-    
+
     .blog-content blockquote {
-      background-color: #f9f9f9;
-      border-left: 4px solid var(--primary-color);
-      padding: 15px 20px;
-      margin: 20px 0;
-      border-radius: 0 8px 8px 0;
+      background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(255, 215, 0, 0.1));
+      border-left: 4px solid var(--accent-green);
+      padding: 1.5rem 2rem;
+      margin: 2rem 0;
+      border-radius: 0 15px 15px 0;
+      font-style: italic;
     }
-    
-    .blog-content h4 {
-      margin-top: 30px;
-      color: var(--primary-color);
-      font-weight: 600;
+
+    .blog-content p {
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+      color: #333;
     }
-    
-    .btn-primary {
-      background-color: var(--primary-color);
-      border-color: var(--primary-color);
+
+    .blog-content ul {
+      margin-bottom: 1.5rem;
     }
-    
-    .btn-primary:hover {
-      background-color: #082720;
-      border-color: #082720;
+
+    .blog-content ul li {
+      margin-bottom: 0.5rem;
+      color: #333;
     }
-    
-    .list-group-item.active {
-      background-color: var(--primary-color);
-      border-color: var(--primary-color);
+
+    .text-muted {
+      color: #666 !important;
+      font-style: italic;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-body {
+      padding: 2rem;
+    }
+
+    /* Green Ways highlight box */
+    .green-ways-box {
+      background: linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(255, 215, 0, 0.15));
+      border: 2px solid var(--accent-green);
+      border-radius: 15px;
+      padding: 2rem;
+      margin: 2rem 0;
+      position: relative;
+    }
+
+    .green-ways-box::before {
+      content: '🛣️';
+      position: absolute;
+      top: -15px;
+      left: 20px;
+      background: var(--card-bg);
+      padding: 0 10px;
+      font-size: 1.5rem;
+    }
+
+    .green-ways-box h5 {
+      color: var(--text-dark);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    footer {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      color: var(--text-light);
+      padding: 3rem 0;
+      margin-top: 4rem;
+    }
+
+    footer a {
+      color: var(--accent-green);
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    footer a:hover {
+      color: var(--accent-yellow);
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    }
+
+    .fade-in {
+      animation: fadeIn 0.8s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .slide-in-left {
+      animation: slideInLeft 0.8s ease-out;
+    }
+
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-50px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .slide-in-right {
+      animation: slideInRight 0.8s ease-out;
+    }
+
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(50px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @media (max-width: 768px) {
+      .main-content {
+        margin-top: 80px;
+      }
+      
+      .sidebar {
+        position: static;
+        margin-bottom: 2rem;
+      }
+      
+      .blog-content {
+        padding: 2rem;
+      }
     }
   </style>
 </head>
 <body>
-  <!-- Navbar simples para voltar ao Index -->
-  <nav class="navbar navbar-expand-lg navbar-dark">
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
     <div class="container">
-      <a class="navbar-brand" href="index.html">RescueFlow</a>
+      <a class="navbar-brand" href="index.html">
+        <i class="bi bi-lightning-charge-fill me-2"></i>RescueFlow
+      </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
       </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link active" href="blog.html">Blog</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#about">Sobre</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#team">Equipa</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#contact">Contactos</a></li>
+        </ul>
+      </div>
     </div>
   </nav>
 
-  <!-- Layout simplificado conforme a imagem -->
-  <div class="container mt-4">
+  <div class="container main-content">
     <div class="row">
-      <!-- Coluna esquerda - Entradas do Blog -->
-      <div class="col-md-3">
-        <h3>Entradas do Blog</h3>
-        <div class="list-group">
-          <a href="blog-post-1.html" class="list-group-item list-group-item-action">Post #1 (12/01/2025)</a>
-          <a href="blog-post-2.html" class="list-group-item list-group-item-action">Post #2 (28/02/2025)</a>
-          <a href="blog-post-3.html" class="list-group-item list-group-item-action">Post #3 (02/04/2025)</a>
-          <a href="blog-post-4.html" class="list-group-item list-group-item-action">Post #4 (15/04/2025)</a>
-          <a href="blog-post-5.html" class="list-group-item list-group-item-action active">Post #5 (21/04/2025)</a>
-          <a href="blog-post-6.html" class="list-group-item list-group-item-action">Post #6 (05/05/2025)</a>
-        </div>
-        <div class="mt-4">
-          <a href="blog.html" class="btn btn-primary w-100">
-            <i class="bi bi-arrow-left"></i> Voltar ao Blog
-          </a>
+      <div class="col-md-3 slide-in-left">
+        <div class="sidebar">
+          <h3>Entradas do Blog</h3>
+          <div class="list-group">
+            <a href="blog-post-1.html" class="list-group-item list-group-item-action">Post #1 (12/01/2025)</a>
+            <a href="blog-post-2.html" class="list-group-item list-group-item-action">Post #2 (28/02/2025)</a>
+            <a href="blog-post-3.html" class="list-group-item list-group-item-action">Post #3 (02/04/2025)</a>
+            <a href="blog-post-4.html" class="list-group-item list-group-item-action">Post #4 (15/04/2025)</a>
+            <a href="blog-post-5.html" class="list-group-item list-group-item-action active">Post #5 (21/04/2025)</a>
+            <a href="blog-post-6.html" class="list-group-item list-group-item-action">Post #6 (05/05/2025)</a>
+          </div>
+          <div class="mt-4">
+            <a href="blog.html" class="btn-back">
+              <i class="bi bi-arrow-left me-2"></i>Voltar ao Blog
+            </a>
+          </div>
         </div>
       </div>
       
-      <!-- Coluna direita - Conteúdo do Post -->
-      <div class="col-md-9">
-        <h2>Testemunho 3: Ajuda de ex-vereador</h2>
-        <p>Data: 21 de Abril 2025</p>
-        <p class="text-muted">Por: Pedro Rodrigues e Martim Sousa</p>
-        
-        <p>
-            Embora este projeto tenha começado como apenas um forma de tornar
-            os semáforos mais eficientes, é o trânsinto que impede a circulação fluida dos veículos de emergeência.
-            Pedimos então ajuda a um ex-vereador da câmara de Lisboa, na área da infraestrutura.
-        </p>
-        
-        <div class="card mb-4 bg-light">
-          <div class="card-body">
-            <blockquote class="blockquote mb-0">
-              <p>"Os semáforos abrem, mas os carros não andam. Ficam presos no próximo semáforo que ainda está fechado."</p>
-              <footer class="blockquote-footer">Ex-vereador</footer>
-            </blockquote>
+      <div class="col-md-9 slide-in-right">
+        <div class="blog-content fade-in">
+          <h2>Testemunho 3: Ajuda de ex-vereador</h2>
+          <p><strong>Data:</strong> 21 de Abril 2025</p>
+          <p class="text-muted">Por: Pedro Rodrigues e Martim Sousa</p>
+          
+          <p>
+            Embora este projeto tenha começado como apenas uma forma de tornar
+            os semáforos mais eficientes, é o trânsito que impede a circulação fluida dos veículos de emergência.
+            Pedimos então ajuda a um ex-vereador da câmara de Lisboa, na área da infraestrutura, para compreender melhor os desafios urbanísticos do nosso projeto.
+          </p>
+          
+          <div class="card mb-4">
+            <div class="card-body">
+              <blockquote class="blockquote mb-0">
+                <p>"Os semáforos abrem, mas os carros não andam. Ficam presos no próximo semáforo que ainda está fechado."</p>
+                <footer class="blockquote-footer">Ex-vereador da Câmara de Lisboa</footer>
+              </blockquote>
+            </div>
           </div>
-        </div>
-        
-        <p>
-            O maior problema que o entrevistado pode observar, foi o facto de os semáforos só reagirem demasiado tarde,
-            não dando tempo para o trânsito "escoer". 
-        </p>
+          
+          <p>
+            O maior problema que o entrevistado pôde observar foi o facto de os semáforos só reagirem demasiado tarde,
+            não dando tempo para o trânsito "escoar". Esta observação revelou uma falha fundamental nos sistemas atuais:
+            a falta de coordenação entre semáforos consecutivos.
+          </p>
 
-        <div class="card mb-4 bg-light">
-          <div class="card-body">
-            <blockquote class="blockquote mb-0">
-              <p>
-                "Precisa-se de uma forma de ter avenidas inteiras sincronizados para que todo o trânsito possa fluir rapidamente."
-              </p>
-              <footer class="blockquote-footer">Ex-vereador</footer>
-            </blockquote>
+          <div class="card mb-4">
+            <div class="card-body">
+              <blockquote class="blockquote mb-0">
+                <p>
+                  "Precisa-se de uma forma de ter avenidas inteiras sincronizadas para que todo o trânsito possa fluir rapidamente."
+                </p>
+                <footer class="blockquote-footer">Ex-vereador da Câmara de Lisboa</footer>
+              </blockquote>
+            </div>
           </div>
+          
+          <div class="green-ways-box">
+            <h5>🛣️ Conceito das "Green Ways"</h5>
+            <p>
+              Assim surge a ideia de criar <strong>"Green Ways"</strong> - estradas que disponibilizam prioridade absoluta a veículos de emergência,
+              com semáforos interligados, podendo assim reagir quando é realmente preciso. 
+              Estas vias estariam em caminhos frequentemente percorridos pelos veículos de emergência, criando corredores dedicados para situações críticas.
+            </p>
+            <p><strong>Características das Green Ways:</strong></p>
+            <ul>
+              <li>🔗 <strong>Semáforos interligados:</strong> Comunicação em tempo real entre todos os sinais da rota</li>
+              <li>📍 <strong>Rotas estratégicas:</strong> Caminhos otimizados entre hospitais, estações de bombeiros e zonas críticas</li>
+              <li>⚡ <strong>Ativação instantânea:</strong> Sistema que se ativa apenas quando necessário</li>
+              <li>🚗 <strong>Gestão de tráfego:</strong> Redirecionamento inteligente do tráfego normal</li>
+            </ul>
+          </div>
+          
+          <h4>Conclusões da Entrevista</h4>
+          <p>
+            Com esta entrevista, vimos a possibilidade do desenvolvimento de uma nova capacidade do nosso sistema:
+            as "Green Ways". Esta conversa transformou a nossa visão do projeto, expandindo-o de um sistema de semáforos isolados
+            para uma rede inteligente e coordenada.
+          </p>
+          
+          <p>
+            Ao falar com quem já teve que se debater sobre estes problemas a nível municipal, a nossa solução tornou-se ainda mais ampla e ambiciosa.
+            A perspectiva deste profissional experiente pôs em causa os problemas invisíveis na nossa solução inicial,
+            ajudando-nos a desenvolver uma abordagem mais holística e eficaz.
+          </p>
+
+          <h4>Implementação das Green Ways</h4>
+          <p>
+            Com base neste testemunho, estamos a desenvolver:
+          </p>
+          <ul>
+            <li><strong>🗺️ Mapeamento de rotas críticas:</strong> Identificação das vias mais utilizadas pelos veículos de emergência</li>
+            <li><strong>🔄 Algoritmos de coordenação:</strong> Sistemas que sincronizam múltiplos semáforos em sequência</li>
+            <li><strong>📊 Análise de fluxo de tráfego:</strong> Estudos para minimizar o impacto no tráfego normal</li>
+            <li><strong>🛠️ Infraestrutura adaptável:</strong> Soluções que funcionam com os semáforos existentes</li>
+          </ul>
+
+          <p>
+            Estes conhecimentos estão a ser incorporados diretamente no desenvolvimento dos nossos algoritmos de controle de semáforos,
+            transformando o RescueFlow numa solução verdadeiramente inovadora para o transporte de emergência urbano.
+          </p>
+
+          <h4>Próximos Passos</h4>
+          <p>
+            A implementação das Green Ways representa um salto qualitativo no nosso projeto:
+          </p>
+          <ul>
+            <li>📍 <strong>Estudo piloto:</strong> Seleção de uma rota específica em Lisboa para testes iniciais</li>
+            <li>🤝 <strong>Parcerias estratégicas:</strong> Colaboração com EMEL e Câmara de Lisboa</li>
+            <li>🧪 <strong>Testes de coordenação:</strong> Validação da sincronização entre múltiplos semáforos</li>
+            <li>📈 <strong>Análise de impacto:</strong> Medição dos benefícios em tempo de resposta e segurança</li>
+          </ul>
         </div>
-        
-        <p>
-        Assim surge a ideia de criar "Green Ways", estradas que disponibilizam prioridade a veículos de emergência,
-        com semáforos interligados, podendo assim reagir quando é realmente preciso. 
-        Estas vias estariam em caminhos muitas vezes percurridas pelos veículos de emergência.
-        </p>
-        
-        <h4>Conclusões da Entrevista</h4>
-        <p>
-          Com esta intrevista, vimos a possbilidade do desenvolvimento de uma nova capacidade do nosso sistema.
-          As "Green Ways".
-          Ao falar com quem já teve que se debater sobre estes problemas, a nossa solução tornou-se ainda mais ampla.
-        </p>
-        <p>
-          A perspectiva deste profissional experiente pôs em causa os problemas ínvisiveis na nossa solução.
-          Estes conhecimentos estão sendo incorporados diretamente no desenvolvimento dos nossos algoritmos de controle de semáforos.
-        
-        </p>
       </div>
     </div>
   </div>
 
-  <!-- Footer -->
-  <footer class="py-4 mt-5">
+  <footer>
     <div class="container text-center">
-      <p><a href="index.html">Voltar à Página Principal</a></p>
-      <p>&copy; 2025 RescueFlow Team</p>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <h5><i class="bi bi-lightning-charge-fill me-2"></i>RescueFlow</h5>
+          <p>Every Second Counts</p>
+        </div>
+        <div class="col-md-4 mb-3">
+          <h5>Navegação</h5>
+          <p><a href="blog.html">Voltar ao Blog</a> | <a href="index.html">Página Principal</a></p>
+        </div>
+        <div class="col-md-4">
+          <h5>Projeto PI366</h5>
+          <p>&copy; 2025 RescueFlow Team</p>
+        </div>
+      </div>
     </div>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.animationDelay = '0.2s';
+          entry.target.classList.add('fade-in');
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.slide-in-left, .slide-in-right, .fade-in').forEach(el => {
+      observer.observe(el);
+    });
+  </script>
 </body>
 </html>
