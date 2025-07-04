@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blog - Desenvolvimento: Início do Scheduling de Eventos de Abertura dos Semáforos</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <style>
+    :root {
+      --primary-gradient: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #3d7ebb 100%);
+      --secondary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --accent-green: #00ff88;
+      --accent-yellow: #ffd700;
+      --accent-orange: #ff6b35;
+      --accent-pink: #ff3d71;
+      --text-light: #ffffff;
+      --text-dark: #1a1a1a;
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--primary-gradient);
+      color: var(--text-light);
+      overflow-x: hidden;
+    }
+
+    .navbar {
+      background: rgba(30, 60, 114, 0.95) !important;
+      backdrop-filter: blur(10px);
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .navbar-brand {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--accent-green) !important;
+      text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+    }
+
+    .navbar-nav .nav-link {
+      color: var(--text-light) !important;
+      font-weight: 500;
+      margin: 0 0.5rem;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .navbar-nav .nav-link:hover {
+      color: var(--accent-green) !important;
+      transform: translateY(-2px);
+    }
+
+    .navbar-nav .nav-link.active {
+      color: var(--accent-yellow) !important;
+    }
+
+    .main-content {
+      margin-top: 100px;
+      padding: 2rem 0 4rem;
+    }
+
+    .sidebar {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: var(--card-shadow);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--text-dark);
+      position: sticky;
+      top: 120px;
+      height: fit-content;
+    }
+
+    .sidebar h3 {
+      color: var(--text-dark);
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .list-group {
+      border-radius: 15px;
+      overflow: hidden;
+    }
+
+    .list-group-item {
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      color: var(--text-dark);
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+
+    .list-group-item:hover {
+      background: linear-gradient(45deg, var(--accent-green), #00cc70);
+      color: var(--text-dark);
+      transform: translateX(5px);
+    }
+
+    .list-group-item.active {
+      background: linear-gradient(45deg, var(--accent-green), var(--accent-yellow));
+      border-color: var(--accent-green);
+      color: var(--text-dark);
+    }
+
+    .btn-back {
+      background: linear-gradient(45deg, var(--accent-green), #00cc70);
+      color: var(--text-dark);
+      border: none;
+      padding: 1rem;
+      border-radius: 15px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: block;
+      text-align: center;
+      box-shadow: 0 8px 25px rgba(0, 255, 136, 0.3);
+    }
+
+    .btn-back:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 35px rgba(0, 255, 136, 0.4);
+      color: var(--text-dark);
+      text-decoration: none;
+    }
+
+    .blog-content {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 3rem;
+      box-shadow: var(--card-shadow);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--text-dark);
+    }
+
+    .blog-content h2 {
+      color: var(--text-dark);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      background: linear-gradient(45deg, var(--accent-green), var(--accent-yellow));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .blog-content h4 {
+      margin-top: 2.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--text-dark);
+      font-weight: 600;
+      border-bottom: 2px solid var(--accent-green);
+      padding-bottom: 0.5rem;
+    }
+
+    .blog-content img {
+      max-width: 100%;
+      border-radius: 15px;
+      margin: 2rem 0;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .blog-content p {
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+      color: #333;
+    }
+
+    .blog-content ul {
+      margin-bottom: 1.5rem;
+    }
+
+    .blog-content ul li {
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
+
+    .text-muted {
+      color: #666 !important;
+      font-style: italic;
+    }
+
+    /* Algorithm box */
+    .algorithm-box {
+      background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(247, 147, 30, 0.1));
+      border: 2px solid var(--accent-orange);
+      border-radius: 15px;
+      padding: 2rem;
+      margin: 2rem 0;
+      position: relative;
+    }
+
+    .algorithm-box::before {
+      content: '🧠';
+      position: absolute;
+      top: -15px;
+      left: 20px;
+      background: var(--card-bg);
+      padding: 0 10px;
+      font-size: 1.5rem;
+    }
+
+    .algorithm-box h5 {
+      color: var(--text-dark);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Timing diagram box */
+    .timing-box {
+      background: linear-gradient(135deg, rgba(240, 147, 251, 0.1), rgba(245, 87, 108, 0.1));
+      border: 2px solid var(--accent-pink);
+      border-radius: 15px;
+      padding: 2rem;
+      margin: 2rem 0;
+      position: relative;
+    }
+
+    .timing-box::before {
+      content: '⏱️';
+      position: absolute;
+      top: -15px;
+      left: 20px;
+      background: var(--card-bg);
+      padding: 0 10px;
+      font-size: 1.5rem;
+    }
+
+    .timing-box h5 {
+      color: var(--text-dark);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Code-like styling for technical terms */
+    .code-term {
+      background: rgba(0, 0, 0, 0.1);
+      padding: 0.2rem 0.5rem;
+      border-radius: 5px;
+      font-family: 'Courier New', monospace;
+      font-weight: 600;
+      color: var(--accent-orange);
+    }
+
+    footer {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      color: var(--text-light);
+      padding: 3rem 0;
+      margin-top: 4rem;
+    }
+
+    footer a {
+      color: var(--accent-green);
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    footer a:hover {
+      color: var(--accent-yellow);
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    }
+
+    .fade-in {
+      animation: fadeIn 0.8s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .slide-in-left {
+      animation: slideInLeft 0.8s ease-out;
+    }
+
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-50px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .slide-in-right {
+      animation: slideInRight 0.8s ease-out;
+    }
+
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(50px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @media (max-width: 768px) {
+      .main-content {
+        margin-top: 80px;
+      }
+      
+      .sidebar {
+        position: static;
+        margin-bottom: 2rem;
+      }
+      
+      .blog-content {
+        padding: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <i class="bi bi-lightning-charge-fill me-2"></i>RescueFlow
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link active" href="blog.html">Blog</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#about">Sobre</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#team">Equipa</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#contact">Contactos</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container main-content">
+    <div class="row">
+      <div class="col-md-3 slide-in-left">
+        <div class="sidebar">
+          <h3>Entradas do Blog</h3>
+          <div class="list-group">
+            <a href="blog-post-1.html" class="list-group-item list-group-item-action">Post #1 (12/01/2025)</a>
+            <a href="blog-post-2.html" class="list-group-item list-group-item-action">Post #2 (28/02/2025)</a>
+            <a href="blog-post-3.html" class="list-group-item list-group-item-action">Post #3 (02/04/2025)</a>
+            <a href="blog-post-4.html" class="list-group-item list-group-item-action">Post #4 (15/04/2025)</a>
+            <a href="blog-post-5.html" class="list-group-item list-group-item-action">Post #5 (21/04/2025)</a>
+            <a href="blog-post-6.html" class="list-group-item list-group-item-action">Post #6 (05/05/2025)</a>
+            <a href="blog-post-7.html" class="list-group-item list-group-item-action">Post #7 (12/05/2025)</a>
+            <a href="blog-post-8.html" class="list-group-item list-group-item-action active">Post #8 (19/05/2025)</a>
+            <a href="blog-post-9.html" class="list-group-item list-group-item-action">Post #9 (26/05/2025)</a>
+            <a href="blog-post-10.html" class="list-group-item list-group-item-action">Post #10 (02/06/2025)</a>
+            <a href="blog-post-11.html" class="list-group-item list-group-item-action">Post #11 (09/06/2025)</a>
+          </div>
+          <div class="mt-4">
+            <a href="blog.html" class="btn-back">
+              <i class="bi bi-arrow-left me-2"></i>Voltar ao Blog
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-9 slide-in-right">
+        <div class="blog-content fade-in">
+          <h2>Desenvolvimento: Início do Scheduling de Eventos de Abertura dos Semáforos</h2>
+          <p><strong>Data:</strong> 19 de Maio 2025</p>
+          <p class="text-muted">Por: Henrique Rodrigues e Mafalda Lopes</p>
+          
+          <p>
+            Com a comunicação estabelecida entre todos os componentes do sistema, chegou o momento 
+            de desenvolver o cérebro do RescueFlow: o algoritmo de scheduling inteligente. 
+            Este sistema determina quando e como os semáforos devem mudar para criar a famosa 
+            "onda verde" que permite aos veículos de emergência atravessarem a cidade sem paragens.
+          </p>
+          
+          <div class="text-center my-4">
+            <img src="images/traffic-algorithm.jpg" alt="Algoritmo de tráfego" class="img-fluid rounded">
+          </div>
+          
+          <p>
+            O scheduling não é apenas sobre abrir semáforos - é sobre orquestrar uma sinfonia 
+            urbana complexa onde cada semáforo deve ativar no momento exato, considerando 
+            velocidade do veículo, densidade de tráfego e impacto na circulação normal.
+          </p>
+
+          <div class="algorithm-box">
+            <h5>🧠 Algoritmo de Scheduling Preditivo</h5>
+            <p>
+              Desenvolvemos um algoritmo <span class="code-term">predictive scheduling</span> que antecipa a chegada 
+              do veículo de emergência a cada cruzamento. O sistema calcula a sequência óptima 
+              de mudanças de semáforos baseado em múltiplas variáveis.
+            </p>
+            <p><strong>Variáveis consideradas:</strong></p>
+            <ul>
+              <li>📍 <strong>Posição atual:</strong> Coordenadas GPS precisas do veículo</li>
+              <li>🏃 <strong>Velocidade:</strong> Velocidade atual e histórica do veículo</li>
+              <li>🛣️ <strong>Rota:</strong> Caminho mais provável baseado no destino</li>
+              <li>🚗 <strong>Tráfego:</strong> Densidade de tráfego em cada segmento</li>
+              <li>⏰ <strong>Timing:</strong> Estado atual de cada semáforo no percurso</li>
+              <li>🎯 <strong>Prioridade:</strong> Tipo de emergência e urgência</li>
+            </ul>
+          </div>
+
+          <h4>Implementação do Sistema de Timing</h4>
+          <p>
+            O maior desafio foi desenvolver um sistema de timing que equilibre a eficiência 
+            para veículos de emergência com o mínimo impacto no tráfego normal. 
+            O nosso algoritmo utiliza um modelo matemático baseado em teoria dos grafos.
+          </p>
+
+          <div class="timing-box">
+            <h5>⏱️ Cálculo de Timing Otimizado</h5>
+            <p>
+              O sistema calcula o <span class="code-term">ETA (Estimated Time of Arrival)</span> para cada cruzamento 
+              e programa a mudança dos semáforos com uma margem de segurança de 15 segundos 
+              antes da chegada prevista.
+            </p>
+            <p><strong>Processo de cálculo:</strong></p>
+            <ol>
+              <li>🎯 <strong>Predição de rota:</strong> Algoritmo A* modificado para emergências</li>
+              <li>⚡ <strong>Cálculo de ETA:</strong> Considerando velocidade média e obstáculos</li>
+              <li>🔄 <strong>Optimização global:</strong> Minimizar atraso total no sistema</li>
+              <li>📊 <strong>Ajuste dinâmico:</strong> Recalcular a cada nova posição GPS</li>
+              <li>🛡️ <strong>Validação:</strong> Verificar conflitos com outros semáforos</li>
+            </ol>
+          </div>
+
+          <h4>Gestão de Conflitos</h4>
+          <p>
+            Um dos aspectos mais complexos é gerir situações onde múltiplos veículos de emergência 
+            operam simultaneamente, ou quando as mudanças necessárias entrariam em conflito 
+            com o tráfego normal.
+          </p>
+
+          <p>
+            <strong>Estratégias de resolução de conflitos:</strong>
+          </p>
+          <ul>
+            <li>🚑 <strong>Priorização por urgência:</strong> Ambulâncias com pacientes críticos têm máxima prioridade</li>
+            <li>🔄 <strong>Sequenciamento inteligente:</strong> Coordenar múltiplos veículos na mesma área</li>
+            <li>⚖️ <strong>Impacto mínimo:</strong> Escolher mudanças que menos perturbem o tráfego normal</li>
+            <li>📍 <strong>Zonas de exclusão:</strong> Evitar mudanças em cruzamentos críticos durante horas de ponta</li>
+          </ul>
+
+          <h4>Testes de Simulação</h4>
+          <p>
+            Antes de implementar o sistema em campo, realizámos extensas simulações usando 
+            dados reais de tráfego de Lisboa. Criámos cenários virtuais que replicam 
+            condições de tráfego em diferentes horas do dia e situações meteorológicas.
+          </p>
+
+          <p>
+            <strong>Cenários testados:</strong>
+          </p>
+          <ul>
+            <li>🌅 <strong>Hora de ponta manhã:</strong> 07:30-09:30, máximo tráfego urbano</li>
+            <li>🌆 <strong>Hora de ponta tarde:</strong> 17:30-19:30, tráfego de saída da cidade</li>
+            <li>🌙 <strong>Período noturno:</strong> 22:00-06:00, tráfego reduzido</li>
+            <li>🌧️ <strong>Condições adversas:</strong> Chuva, nevoeiro, acidentes</li>
+            <li>🚑 <strong>Múltiplas emergências:</strong> Até 5 veículos simultâneos</li>
+          </ul>
+
+          <h4>Resultados Preliminares</h4>
+          <p>
+            Os primeiros testes do algoritmo mostraram resultados promissores. 
+            O sistema consegue reduzir significativamente o tempo de viagem dos veículos 
+            de emergência sem causar congestionamentos substanciais.
+          </p>
+
+          <p>
+            <strong>Métricas de performance:</strong>
+          </p>
+          <ul>
+            <li>🎯 <strong>Redução tempo viagem:</strong> 35-45% em média para veículos de emergência</li>
+            <li>📊 <strong>Precisão ETA:</strong> 92% dos cálculos dentro de margem de 30 segundos</li>
+            <li>🚗 <strong>Impacto tráfego normal:</strong> Aumento de apenas 3-5% no tempo médio</li>
+            <li>⚡ <strong>Tempo de processamento:</strong> Algoritmo executa em menos de 200ms</li>
+            <li>🔄 <strong>Taxa de sucesso:</strong> 97% dos semáforos ativados no timing correto</li>
+          </ul>
+
+          <h4>Optimizações Futuras</h4>
+          <p>
+            O desenvolvimento do scheduling é um processo iterativo. Identificámos várias 
+            áreas para melhoramento que implementaremos nas próximas versões:
+          </p>
+
+          <ul>
+            <li>🤖 <strong>Machine Learning:</strong> Aprender padrões de tráfego para predições mais precisas</li>
+            <li>🌐 <strong>Integração V2V:</strong> Coordenação direta entre múltiplos veículos de emergência</li>
+            <li>📱 <strong>Apps de navegação:</strong> Integração com Waze/Google Maps para dados de tráfego</li>
+            <li>🎛️ <strong>Controlo adaptativo:</strong> Ajuste automático baseado na hora e condições</li>
+            <li>🔮 <strong>Predição de destino:</strong> Antecipar destino baseado em padrões históricos</li>
+          </ul>
+
+          <h4>Próxima Fase: Green Wave</h4>
+          <p>
+            Com o sistema de scheduling básico funcional, o próximo passo é implementar 
+            a verdadeira "Green Wave" - a coordenação simultânea de múltiplos semáforos 
+            consecutivos para criar um corredor contínuo de passagem livre.
+          </p>
+
+          <p>
+            Esta fase representa o coração do conceito das Green Ways que desenvolvemos 
+            com base no testemunho do ex-vereador. A coordenação de avenidas inteiras 
+            será o salto qualitativo que transformará o RescueFlow numa solução verdadeiramente 
+            revolucionária para o transporte de emergência urbano.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container text-center">
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <h5><i class="bi bi-lightning-charge-fill me-2"></i>RescueFlow</h5>
+          <p>Every Second Counts</p>
+        </div>
+        <div class="col-md-4 mb-3">
+          <h5>Navegação</h5>
+          <p><a href="blog.html">Voltar ao Blog</a> | <a href="index.html">Página Principal</a></p>
+        </div>
+        <div class="col-md-4">
+          <h5>Projeto PI366</h5>
+          <p>&copy; 2025 RescueFlow Team</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.animationDelay = '0.2s';
+          entry.target.classList.add('fade-in');
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.slide-in-left, .slide-in-right, .fade-in').forEach(el => {
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
