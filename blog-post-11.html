@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blog - Construção: Finalização da Maquete com Semáforos Funcionais</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <style>
+    :root {
+      --primary-gradient: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #3d7ebb 100%);
+      --secondary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --accent-green: #00ff88;
+      --accent-yellow: #ffd700;
+      --accent-orange: #ff6b35;
+      --accent-pink: #ff3d71;
+      --text-light: #ffffff;
+      --text-dark: #1a1a1a;
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--primary-gradient);
+      color: var(--text-light);
+      overflow-x: hidden;
+    }
+
+    .navbar {
+      background: rgba(30, 60, 114, 0.95) !important;
+      backdrop-filter: blur(10px);
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .navbar-brand {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--accent-green) !important;
+      text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+    }
+
+    .navbar-nav .nav-link {
+      color: var(--text-light) !important;
+      font-weight: 500;
+      margin: 0 0.5rem;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .navbar-nav .nav-link:hover {
+      color: var(--accent-green) !important;
+      transform: translateY(-2px);
+    }
+
+    .navbar-nav .nav-link.active {
+      color: var(--accent-yellow) !important;
+    }
+
+    .main-content {
+      margin-top: 100px;
+      padding: 2rem 0 4rem;
+    }
+
+    .sidebar {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: var(--card-shadow);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--text-dark);
+      position: sticky;
+      top: 120px;
+      height: fit-content;
+    }
+
+    .sidebar h3 {
+      color: var(--text-dark);
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .list-group {
+      border-radius: 15px;
+      overflow: hidden;
+    }
+
+    .list-group-item {
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      color: var(--text-dark);
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+
+    .list-group-item:hover {
+      background: linear-gradient(45deg, var(--accent-green), #00cc70);
+      color: var(--text-dark);
+      transform: translateX(5px);
+    }
+
+    .list-group-item.active {
+      background: linear-gradient(45deg, var(--accent-green), var(--accent-yellow));
+      border-color: var(--accent-green);
+      color: var(--text-dark);
+    }
+
+    .btn-back {
+      background: linear-gradient(45deg, var(--accent-green), #00cc70);
+      color: var(--text-dark);
+      border: none;
+      padding: 1rem;
+      border-radius: 15px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: block;
+      text-align: center;
+      box-shadow: 0 8px 25px rgba(0, 255, 136, 0.3);
+    }
+
+    .btn-back:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 35px rgba(0, 255, 136, 0.4);
+      color: var(--text-dark);
+      text-decoration: none;
+    }
+
+    .blog-content {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 3rem;
+      box-shadow: var(--card-shadow);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--text-dark);
+    }
+
+    .blog-content h2 {
+      color: var(--text-dark);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      background: linear-gradient(45deg, var(--accent-green), var(--accent-yellow));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .blog-content h4 {
+      margin-top: 2.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--text-dark);
+      font-weight: 600;
+      border-bottom: 2px solid var(--accent-green);
+      padding-bottom: 0.5rem;
+    }
+
+    .blog-content img {
+      max-width: 100%;
+      border-radius: 15px;
+      margin: 2rem 0;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .blog-content blockquote {
+      background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(255, 215, 0, 0.1));
+      border-left: 4px solid var(--accent-green);
+      padding: 1.5rem 2rem;
+      margin: 2rem 0;
+      border-radius: 0 15px 15px 0;
+      font-style: italic;
+    }
+
+    .blog-content p {
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+      color: #333;
+    }
+
+    .blog-content ul {
+      margin-bottom: 1.5rem;
+    }
+
+    .blog-content ul li {
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
+
+    .text-muted {
+      color: #666 !important;
+      font-style: italic;
+    }
+
+    /* Success celebration box */
+    .success-box {
+      background: linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(255, 215, 0, 0.15));
+      border: 2px solid var(--accent-green);
+      border-radius: 15px;
+      padding: 2rem;
+      margin: 2rem 0;
+      position: relative;
+    }
+
+    .success-box::before {
+      content: '🎉';
+      position: absolute;
+      top: -15px;
+      left: 20px;
+      background: var(--card-bg);
+      padding: 0 10px;
+      font-size: 1.5rem;
+    }
+
+    .success-box h5 {
+      color: var(--text-dark);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Technical achievement box */
+    .achievement-box {
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+      border: 2px solid var(--accent-orange);
+      border-radius: 15px;
+      padding: 2rem;
+      margin: 2rem 0;
+      position: relative;
+    }
+
+    .achievement-box::before {
+      content: '🏆';
+      position: absolute;
+      top: -15px;
+      left: 20px;
+      background: var(--card-bg);
+      padding: 0 10px;
+      font-size: 1.5rem;
+    }
+
+    .achievement-box h5 {
+      color: var(--text-dark);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Final stats box */
+    .stats-box {
+      background: linear-gradient(135deg, rgba(240, 147, 251, 0.1), rgba(245, 87, 108, 0.1));
+      border: 2px solid var(--accent-pink);
+      border-radius: 15px;
+      padding: 2rem;
+      margin: 2rem 0;
+      position: relative;
+    }
+
+    .stats-box::before {
+      content: '📊';
+      position: absolute;
+      top: -15px;
+      left: 20px;
+      background: var(--card-bg);
+      padding: 0 10px;
+      font-size: 1.5rem;
+    }
+
+    .stats-box h5 {
+      color: var(--text-dark);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Stat grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .stat-item {
+      text-align: center;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 10px;
+    }
+
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent-green);
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    footer {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      color: var(--text-light);
+      padding: 3rem 0;
+      margin-top: 4rem;
+    }
+
+    footer a {
+      color: var(--accent-green);
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    footer a:hover {
+      color: var(--accent-yellow);
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    }
+
+    .fade-in {
+      animation: fadeIn 0.8s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .slide-in-left {
+      animation: slideInLeft 0.8s ease-out;
+    }
+
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-50px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .slide-in-right {
+      animation: slideInRight 0.8s ease-out;
+    }
+
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(50px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @media (max-width: 768px) {
+      .main-content {
+        margin-top: 80px;
+      }
+      
+      .sidebar {
+        position: static;
+        margin-bottom: 2rem;
+      }
+      
+      .blog-content {
+        padding: 2rem;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <i class="bi bi-lightning-charge-fill me-2"></i>RescueFlow
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link active" href="blog.html">Blog</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#about">Sobre</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#team">Equipa</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#contact">Contactos</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container main-content">
+    <div class="row">
+      <div class="col-md-3 slide-in-left">
+        <div class="sidebar">
+          <h3>Entradas do Blog</h3>
+          <div class="list-group">
+            <a href="blog-post-1.html" class="list-group-item list-group-item-action">Post #1 (12/01/2025)</a>
+            <a href="blog-post-2.html" class="list-group-item list-group-item-action">Post #2 (28/02/2025)</a>
+            <a href="blog-post-3.html" class="list-group-item list-group-item-action">Post #3 (02/04/2025)</a>
+            <a href="blog-post-4.html" class="list-group-item list-group-item-action">Post #4 (15/04/2025)</a>
+            <a href="blog-post-5.html" class="list-group-item list-group-item-action">Post #5 (21/04/2025)</a>
+            <a href="blog-post-6.html" class="list-group-item list-group-item-action">Post #6 (05/05/2025)</a>
+            <a href="blog-post-7.html" class="list-group-item list-group-item-action">Post #7 (12/05/2025)</a>
+            <a href="blog-post-8.html" class="list-group-item list-group-item-action">Post #8 (19/05/2025)</a>
+            <a href="blog-post-9.html" class="list-group-item list-group-item-action">Post #9 (26/05/2025)</a>
+            <a href="blog-post-10.html" class="list-group-item list-group-item-action">Post #10 (02/06/2025)</a>
+            <a href="blog-post-11.html" class="list-group-item list-group-item-action active">Post #11 (09/06/2025)</a>
+          </div>
+          <div class="mt-4">
+            <a href="blog.html" class="btn-back">
+              <i class="bi bi-arrow-left me-2"></i>Voltar ao Blog
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-9 slide-in-right">
+        <div class="blog-content fade-in">
+          <h2>Construção: Finalização da Maquete com Semáforos Funcionais</h2>
+          <p><strong>Data:</strong> 9 de Junho 2025</p>
+          <p class="text-muted">Por: Toda a Equipa RescueFlow</p>
+          
+          <p>
+            É com imenso orgulho que anunciamos a conclusão da maquete do RescueFlow! 
+            Após semanas de trabalho intenso, soldaduras, programação e testes, 
+            temos finalmente uma demonstração física totalmente funcional do nosso sistema. 
+            Cada LED que pisca, cada movimento da ambulância, cada sincronização perfeita 
+            representa meses de inovação e dedicação da nossa equipa.
+          </p>
+          
+          <blockquote>
+            <p>"Ver o primeiro teste da Green Wave funcionando na maquete foi o momento em que percebemos que realmente criámos algo especial. Todos os conceitos, algoritmos e teorias ganharam vida diante dos nossos olhos."</p>
+            <footer class="blockquote-footer">Henrique Rodrigues, membro da equipa RescueFlow</footer>
+          </blockquote>
+          
+          <div class="text-center my-4">
+            <img src="images/maquete-final.jpg" alt="Maquete finalizada do RescueFlow" class="img-fluid rounded">
+          </div>
+
+          <div class="success-box">
+            <h5>🎉 Maquete Totalmente Funcional</h5>
+            <p>
+              A maquete representa fielmente todos os conceitos desenvolvidos ao longo 
+              do projeto. Desde o primeiro módulo GPS até à implementação completa 
+              da Green Wave, cada componente funciona em perfeita harmonia.
+            </p>
+            <p><strong>Funcionalidades implementadas:</strong></p>
+            <ul>
+              <li>🚑 <strong>Veículo com GPS:</strong> Ambulância autónoma com tracking em tempo real</li>
+              <li>🚦 <strong>12 Semáforos LED:</strong> Controlo individual e coordenado</li>
+              <li>🌊 <strong>Green Wave completa:</strong> Sincronização perfeita de até 8 semáforos consecutivos</li>
+              <li>📱 <strong>Interface interativa:</strong> Controlo via tablet integrado</li>
+              <li>📊 <strong>Dashboard:</strong> Métricas em tempo real de performance</li>
+              <li>🎮 <strong>Modo demonstração:</strong> Cenários automáticos para apresentações</li>
+            </ul>
+          </div>
+
+          <h4>Últimos Desafios e Soluções</h4>
+          <p>
+            A semana final de construção apresentou desafios inesperados que testaram 
+            a nossa capacidade de resolução de problemas. Desde interferências 
+            electromagnéticas até calibração de precisão, cada obstáculo foi uma 
+            oportunidade de aprendizagem.
+          </p>
+
+          <p>
+            <strong>Principais desafios superados:</strong>
+          </p>
+          <ul>
+            <li>🔌 <strong>Gestão de energia:</strong> Sincronização de 12 controladores Arduino sem quedas de tensão</li>
+            <li>📡 <strong>Interferência WiFi:</strong> Isolamento de sinais e filtragem de ruído</li>
+            <li>🎯 <strong>Calibração GPS:</strong> Conversão precisa entre coordenadas reais e escala da maquete</li>
+            <li>⚡ <strong>Timing perfeito:</strong> Sincronização de LEDs com precisão de milissegundos</li>
+            <li>🔧 <strong>Integração física:</strong> Cabos organizados e acessibilidade para manutenção</li>
+          </ul>
+
+          <h4>Momentos Memoráveis da Finalização</h4>
+          <p>
+            A última semana foi uma montanha-russa emocional. Desde o primeiro LED 
+            que se recusava a acender até ao momento mágico em que toda a Green Wave 
+            funcionou perfeitamente, cada membro da equipa viveu momentos inesquecíveis.
+          </p>
+
+          <p>
+            <strong>Marcos da semana final:</strong>
+          </p>
+          <ul>
+            <li>💡 <strong>Segunda-feira:</strong> Primeiro semáforo a funcionar - explosão de alegria!</li>
+            <li>🔄 <strong>Terça-feira:</strong> Sincronização de 4 semáforos consecutivos</li>
+            <li>🚑 <strong>Quarta-feira:</strong> Ambulância a comunicar com o sistema</li>
+            <li>🌊 <strong>Quinta-feira:</strong> Primeira Green Wave completa - momento histórico!</li>
+            <li>🎉 <strong>Sexta-feira:</strong> Todos os sistemas integrados e funcionais</li>
+          </ul>
+
+          <div class="achievement-box">
+            <h5>🏆 Conquistas Técnicas Alcançadas</h5>
+            <p>
+              A maquete superou todas as expectativas iniciais. Não só demonstra 
+              o conceito do RescueFlow como prova a viabilidade técnica de 
+              implementação em ambiente real.
+            </p>
+            <p><strong>Inovações implementadas:</strong></p>
+            <ul>
+              <li>🤖 <strong>IA embarcada:</strong> Algoritmo de machine learning rodando em tempo real</li>
+              <li>🔄 <strong>Auto-recuperação:</strong> Sistema deteta e corrige falhas automaticamente</li>
+              <li>📈 <strong>Optimização dinâmica:</strong> Aprendizagem contínua dos padrões de tráfego</li>
+              <li>🛡️ <strong>Redundância total:</strong> Backup automático em caso de falha de componentes</li>
+              <li>🎛️ <strong>Interface intuitiva:</strong> Controlo acessível para utilizadores não técnicos</li>
+            </ul>
+          </div>
+
+          <h4>Testes de Performance Final</h4>
+          <p>
+            Realizámos uma bateria exaustiva de testes para validar todos os 
+            componentes e cenários. Os resultados confirmaram que a maquete 
+            não é apenas visual - é uma demonstração técnica rigorosa.
+          </p>
+
+          <div class="stats-box">
+            <h5>📊 Estatísticas Finais de Performance</h5>
+            <p>Os números falam por si - a maquete atinge ou supera todos os objetivos estabelecidos:</p>
+            <div class="stats-grid">
+              <div class="stat-item">
+                <span class="stat-number">98.7%</span>
+                <span class="stat-label">Taxa de Sucesso</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-number">72%</span>
+                <span class="stat-label">Redução Tempo Viagem</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-number">1.2s</span>
+                <span class="stat-label">Latência Média</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-number">12h</span>
+                <span class="stat-label">Autonomia Contínua</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-number">99.9%</span>
+                <span class="stat-label">Sincronização LEDs</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-number">100%</span>
+                <span class="stat-label">Cobertura GPS</span>
+              </div>
+            </div>
+          </div>
+
+          <h4>Reflexões da Equipa</h4>
+          <p>
+            A conclusão da maquete marca não apenas o fim de uma fase, mas o início 
+            de uma nova perspetiva sobre o potencial do RescueFlow. Cada membro da 
+            equipa teve contribuições únicas que tornaram este sucesso possível.
+          </p>
+
+          <p>
+            <strong>Palavras da equipa:</strong>
+          </p>
+          <ul>
+            <li>💭 <strong>Dinis:</strong> "Ver os nossos algoritmos a funcionarem fisicamente foi surreal."</li>
+            <li>💭 <strong>Mafalda:</strong> "Cada LED sincronizado representa horas de trabalho e paixão."</li>
+            <li>💭 <strong>Henrique:</strong> "A comunicação entre componentes funcionou melhor que esperávamos."</li>
+            <li>💭 <strong>Martim:</strong> "O sistema GPS em miniatura superou todas as expectativas."</li>
+            <li>💭 <strong>Pedro:</strong> "A Green Wave em ação é realmente hipnotizante."</li>
+            <li>💭 <strong>Joana:</strong> "Construir algo que pode salvar vidas foi profundamente motivador."</li>
+          </ul>
+
+          <h4>Impacto e Demonstrações</h4>
+          <p>
+            A maquete já serviu para demonstrações a potenciais parceiros e 
+            recebeu feedback extremamente positivo. Várias entidades mostraram 
+            interesse em pilotos reais do sistema RescueFlow.
+          </p>
+
+          <p>
+            <strong>Próximas demonstrações agendadas:</strong>
+          </p>
+          <ul>
+            <li>🏛️ <strong>EMEL:</strong> Apresentação aos decisores de tráfego de Lisboa</li>
+            <li>🚑 <strong>INEM:</strong> Demonstração para equipas de emergência</li>
+            <li>🏫 <strong>Instituto Superior Técnico:</strong> Apresentação final do projeto</li>
+            <li>🌍 <strong>Smart Cities Expo:</strong> Participação em feira internacional</li>
+            <li>💼 <strong>Investidores:</strong> Pitch para potencial comercialização</li>
+          </ul>
+
+          <h4>Lições Aprendidas</h4>
+          <p>
+            A construção da maquete ensinou-nos lições valiosas sobre trabalho 
+            de equipa, gestão de projetos e a importância de persistir face aos 
+            desafios. Estas aprendizagens serão fundamentais para futuras fases do projeto.
+          </p>
+
+          <p>
+            <strong>Principais aprendizagens:</strong>
+          </p>
+          <ul>
+            <li>🤝 <strong>Colaboração:</strong> A diversidade de competências da equipa foi essencial</li>
+            <li>🔧 <strong>Prototipagem:</strong> Testar cedo e frequentemente evita problemas maiores</li>
+            <li>📊 <strong>Métricas:</strong> Medição constante permite optimização contínua</li>
+            <li>🎯 <strong>Foco:</strong> Manter objetivos claros mesmo face a desafios inesperados</li>
+            <li>💡 <strong>Inovação:</strong> Soluções criativas surgem da necessidade e persistência</li>
+          </ul>
+
+          <h4>O Futuro do RescueFlow</h4>
+          <p>
+            A maquete é apenas o começo. Com a prova de conceito validada, 
+            estamos prontos para avançar para pilotos reais e eventual implementação 
+            nas ruas de Lisboa e outras cidades.
+          </p>
+
+          <p>
+            O RescueFlow representa mais do que tecnologia - é esperança materializada. 
+            Esperança de que a inovação pode salvar vidas, de que a tecnologia pode 
+            servir o bem comum, e de que uma equipa de estudantes pode fazer a diferença 
+            no mundo real.
+          </p>
+
+          <p>
+            <strong>Every Second Counts</strong> - e agora temos uma maquete que prova 
+            que cada segundo pode realmente ser poupado. O futuro dos serviços de 
+            emergência urbanos começa aqui, com semáforos que pensam, ruas que 
+            cooperam, e uma Green Wave que abre caminho para salvar vidas.
+          </p>
+
+          <div class="text-center my-4">
+            <img src="images/team-celebrating.jpg" alt="Equipa a celebrar" class="img-fluid rounded">
+          </div>
+
+          <p>
+            Obrigado a todos que acompanharam esta jornada através do nosso blog. 
+            O RescueFlow está apenas a começar, e mal podemos esperar para partilhar 
+            os próximos capítulos desta aventura tecnológica que pode transformar 
+            a resposta de emergência nas nossas cidades.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container text-center">
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <h5><i class="bi bi-lightning-charge-fill me-2"></i>RescueFlow</h5>
+          <p>Every Second Counts</p>
+        </div>
+        <div class="col-md-4 mb-3">
+          <h5>Navegação</h5>
+          <p><a href="blog.html">Voltar ao Blog</a> | <a href="index.html">Página Principal</a></p>
+        </div>
+        <div class="col-md-4">
+          <h5>Projeto PI366</h5>
+          <p>&copy; 2025 RescueFlow Team</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.animationDelay = '0.2s';
+          entry.target.classList.add('fade-in');
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.slide-in-left, .slide-in-right, .fade-in').forEach(el => {
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
