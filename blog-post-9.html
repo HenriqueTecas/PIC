@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blog - Desenvolvimento: Green Wave - Interligação entre Semáforos</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <style>
+    :root {
+      --primary-gradient: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #3d7ebb 100%);
+      --secondary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --accent-green: #00ff88;
+      --accent-yellow: #ffd700;
+      --accent-orange: #ff6b35;
+      --accent-pink: #ff3d71;
+      --text-light: #ffffff;
+      --text-dark: #1a1a1a;
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--primary-gradient);
+      color: var(--text-light);
+      overflow-x: hidden;
+    }
+
+    .navbar {
+      background: rgba(30, 60, 114, 0.95) !important;
+      backdrop-filter: blur(10px);
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .navbar-brand {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--accent-green) !important;
+      text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+    }
+
+    .navbar-nav .nav-link {
+      color: var(--text-light) !important;
+      font-weight: 500;
+      margin: 0 0.5rem;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .navbar-nav .nav-link:hover {
+      color: var(--accent-green) !important;
+      transform: translateY(-2px);
+    }
+
+    .navbar-nav .nav-link.active {
+      color: var(--accent-yellow) !important;
+    }
+
+    .main-content {
+      margin-top: 100px;
+      padding: 2rem 0 4rem;
+    }
+
+    .sidebar {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: var(--card-shadow);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--text-dark);
+      position: sticky;
+      top: 120px;
+      height: fit-content;
+    }
+
+    .sidebar h3 {
+      color: var(--text-dark);
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .list-group {
+      border-radius: 15px;
+      overflow: hidden;
+    }
+
+    .list-group-item {
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      color: var(--text-dark);
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+
+    .list-group-item:hover {
+      background: linear-gradient(45deg, var(--accent-green), #00cc70);
+      color: var(--text-dark);
+      transform: translateX(5px);
+    }
+
+    .list-group-item.active {
+      background: linear-gradient(45deg, var(--accent-green), var(--accent-yellow));
+      border-color: var(--accent-green);
+      color: var(--text-dark);
+    }
+
+    .btn-back {
+      background: linear-gradient(45deg, var(--accent-green), #00cc70);
+      color: var(--text-dark);
+      border: none;
+      padding: 1rem;
+      border-radius: 15px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: block;
+      text-align: center;
+      box-shadow: 0 8px 25px rgba(0, 255, 136, 0.3);
+    }
+
+    .btn-back:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 35px rgba(0, 255, 136, 0.4);
+      color: var(--text-dark);
+      text-decoration: none;
+    }
+
+    .blog-content {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 3rem;
+      box-shadow: var(--card-shadow);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--text-dark);
+    }
+
+    .blog-content h2 {
+      color: var(--text-dark);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      background: linear-gradient(45deg, var(--accent-green), var(--accent-yellow));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .blog-content h4 {
+      margin-top: 2.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--text-dark);
+      font-weight: 600;
+      border-bottom: 2px solid var(--accent-green);
+      padding-bottom: 0.5rem;
+    }
+
+    .blog-content img {
+      max-width: 100%;
+      border-radius: 15px;
+      margin: 2rem 0;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .blog-content blockquote {
+      background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(255, 215, 0, 0.1));
+      border-left: 4px solid var(--accent-green);
+      padding: 1.5rem 2rem;
+      margin: 2rem 0;
+      border-radius: 0 15px 15px 0;
+      font-style: italic;
+    }
+
+    .blog-content p {
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+      color: #333;
+    }
+
+    .blog-content ul {
+      margin-bottom: 1.5rem;
+    }
+
+    .blog-content ul li {
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
+
+    .text-muted {
+      color: #666 !important;
+      font-style: italic;
+    }
+
+    /* Green Wave concept box */
+    .green-wave-box {
+      background: linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(255, 215, 0, 0.15));
+      border: 2px solid var(--accent-green);
+      border-radius: 15px;
+      padding: 2rem;
+      margin: 2rem 0;
+      position: relative;
+    }
+
+    .green-wave-box::before {
+      content: '🌊';
+      position: absolute;
+      top: -15px;
+      left: 20px;
+      background: var(--card-bg);
+      padding: 0 10px;
+      font-size: 1.5rem;
+    }
+
+    .green-wave-box h5 {
+      color: var(--text-dark);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Synchronization box */
+    .sync-box {
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+      border: 2px solid var(--accent-orange);
+      border-radius: 15px;
+      padding: 2rem;
+      margin: 2rem 0;
+      position: relative;
+    }
+
+    .sync-box::before {
+      content: '🔄';
+      position: absolute;
+      top: -15px;
+      left: 20px;
+      background: var(--card-bg);
+      padding: 0 10px;
+      font-size: 1.5rem;
+    }
+
+    .sync-box h5 {
+      color: var(--text-dark);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Code-like styling for technical terms */
+    .code-term {
+      background: rgba(0, 0, 0, 0.1);
+      padding: 0.2rem 0.5rem;
+      border-radius: 5px;
+      font-family: 'Courier New', monospace;
+      font-weight: 600;
+      color: var(--accent-orange);
+    }
+
+    footer {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      color: var(--text-light);
+      padding: 3rem 0;
+      margin-top: 4rem;
+    }
+
+    footer a {
+      color: var(--accent-green);
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    footer a:hover {
+      color: var(--accent-yellow);
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    }
+
+    .fade-in {
+      animation: fadeIn 0.8s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .slide-in-left {
+      animation: slideInLeft 0.8s ease-out;
+    }
+
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-50px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .slide-in-right {
+      animation: slideInRight 0.8s ease-out;
+    }
+
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(50px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @media (max-width: 768px) {
+      .main-content {
+        margin-top: 80px;
+      }
+      
+      .sidebar {
+        position: static;
+        margin-bottom: 2rem;
+      }
+      
+      .blog-content {
+        padding: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <i class="bi bi-lightning-charge-fill me-2"></i>RescueFlow
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link active" href="blog.html">Blog</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#about">Sobre</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#team">Equipa</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#contact">Contactos</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container main-content">
+    <div class="row">
+      <div class="col-md-3 slide-in-left">
+        <div class="sidebar">
+          <h3>Entradas do Blog</h3>
+          <div class="list-group">
+            <a href="blog-post-1.html" class="list-group-item list-group-item-action">Post #1 (12/01/2025)</a>
+            <a href="blog-post-2.html" class="list-group-item list-group-item-action">Post #2 (28/02/2025)</a>
+            <a href="blog-post-3.html" class="list-group-item list-group-item-action">Post #3 (02/04/2025)</a>
+            <a href="blog-post-4.html" class="list-group-item list-group-item-action">Post #4 (15/04/2025)</a>
+            <a href="blog-post-5.html" class="list-group-item list-group-item-action">Post #5 (21/04/2025)</a>
+            <a href="blog-post-6.html" class="list-group-item list-group-item-action">Post #6 (05/05/2025)</a>
+            <a href="blog-post-7.html" class="list-group-item list-group-item-action">Post #7 (12/05/2025)</a>
+            <a href="blog-post-8.html" class="list-group-item list-group-item-action">Post #8 (19/05/2025)</a>
+            <a href="blog-post-9.html" class="list-group-item list-group-item-action active">Post #9 (26/05/2025)</a>
+            <a href="blog-post-10.html" class="list-group-item list-group-item-action">Post #10 (02/06/2025)</a>
+            <a href="blog-post-11.html" class="list-group-item list-group-item-action">Post #11 (09/06/2025)</a>
+          </div>
+          <div class="mt-4">
+            <a href="blog.html" class="btn-back">
+              <i class="bi bi-arrow-left me-2"></i>Voltar ao Blog
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-9 slide-in-right">
+        <div class="blog-content fade-in">
+          <h2>Desenvolvimento: Green Wave - Interligação entre Semáforos</h2>
+          <p><strong>Data:</strong> 26 de Maio 2025</p>
+          <p class="text-muted">Por: Martim Sousa e Joana Teixeira</p>
+          
+          <p>
+            Chegamos ao momento mais aguardado do desenvolvimento do RescueFlow: a implementação 
+            da verdadeira "Green Wave". Não se trata apenas de controlar semáforos individuais, 
+            mas sim de criar uma coordenação perfeita entre múltiplos semáforos consecutivos, 
+            transformando avenidas inteiras em corredores de emergência.
+          </p>
+          
+          <blockquote>
+            <p>"Precisa-se de uma forma de ter avenidas inteiras sincronizadas para que todo o trânsito possa fluir rapidamente."</p>
+            <footer class="blockquote-footer">Ex-vereador da Câmara de Lisboa, que inspirou o conceito das Green Ways</footer>
+          </blockquote>
+          
+          <div class="text-center my-4">
+            <img src="images/green-wave-visualization.jpg" alt="Visualização da Green Wave" class="img-fluid rounded">
+          </div>
+          
+          <p>
+            A Green Wave representa a evolução do nosso sistema de semáforos isolados para uma 
+            rede inteligente e coordenada. O conceito baseia-se na criação de uma "onda verde" 
+            que se propaga pela cidade à frente do veículo de emergência, garantindo passagem 
+            livre sem interrupções.
+          </p>
+
+          <div class="green-wave-box">
+            <h5>🌊 Conceito da Green Wave</h5>
+            <p>
+              A Green Wave é uma sequência coordenada de semáforos que mudam para verde 
+              de forma sincronizada, criando um "corredor temporal" por onde o veículo 
+              de emergência pode passar sem parar. O timing é calculado para que cada 
+              semáforo abra exatamente quando necessário.
+            </p>
+            <p><strong>Características principais:</strong></p>
+            <ul>
+              <li>🎯 <strong>Sincronização perfeita:</strong> Cada semáforo ativa no momento exato</li>
+              <li>⚡ <strong>Propagação dinâmica:</strong> A onda adapta-se à velocidade do veículo</li>
+              <li>🛣️ <strong>Cobertura extensiva:</strong> Até 15 semáforos consecutivos coordenados</li>
+              <li>🔄 <strong>Recuperação automática:</strong> Retorno ao estado normal após passagem</li>
+              <li>🎛️ <strong>Ajuste inteligente:</strong> Compensação automática para atrasos ou acelerações</li>
+            </ul>
+          </div>
+
+          <h4>Implementação Técnica da Coordenação</h4>
+          <p>
+            O maior desafio técnico foi desenvolver um sistema que coordene múltiplos semáforos 
+            mantendo sincronização precisa mesmo com variações na velocidade do veículo de emergência. 
+            Utilizamos um algoritmo <span class="code-term">distributed consensus</span> adaptado para sistemas de tempo real.
+          </p>
+
+          <div class="sync-box">
+            <h5>🔄 Algoritmo de Sincronização Distribuída</h5>
+            <p>
+              O sistema implementa uma arquitetura <span class="code-term">master-slave</span> onde o servidor central 
+              atua como maestro, coordenando todos os semáforos numa determinada Green Way. 
+              Cada semáforo mantém um relógio sincronizado e executa comandos temporalizados.
+            </p>
+            <p><strong>Processo de coordenação:</strong></p>
+            <ol>
+              <li>📊 <strong>Análise de rota:</strong> Identificar todos os semáforos no percurso</li>
+              <li>⏰ <strong>Cálculo temporal:</strong> Determinar timing exato para cada mudança</li>
+              <li>📡 <strong>Envio coordenado:</strong> Transmitir comandos com timestamp preciso</li>
+              <li>🔄 <strong>Sincronização:</strong> Coordenar relógios para execução simultânea</li>
+              <li>📈 <strong>Monitorização:</strong> Acompanhar execução e ajustar se necessário</li>
+              <li>🔙 <strong>Restauração:</strong> Retornar ao ciclo normal após passagem</li>
+            </ol>
+          </div>
+
+          <h4>Gestão de Complexidade Urbana</h4>
+          <p>
+            Lisboa apresenta desafios únicos para a implementação da Green Wave: ruas históricas 
+            estreitas, tráfego denso e padrões de circulação complexos. Desenvolvemos soluções 
+            específicas para estes cenários urbanos reais.
+          </p>
+
+          <p>
+            <strong>Adaptações para ambiente urbano:</strong>
+          </p>
+          <ul>
+            <li>🏛️ <strong>Ruas históricas:</strong> Algoritmos adaptados para vias estreitas e irregulares</li>
+            <li>🚌 <strong>Transportes públicos:</strong> Coordenação com autocarros e metros</li>
+            <li>👥 <strong>Peões:</strong> Garantir tempos seguros para atravessamento</li>
+            <li>🚲 <strong>Ciclistas:</strong> Consideração de ciclovias e tráfego misto</li>
+            <li>🚧 <strong>Obras:</strong> Adaptação dinâmica a desvios temporários</li>
+          </ul>
+
+          <h4>Sistema de Prioridades Hierárquicas</h4>
+          <p>
+            Desenvolvemos um sistema sofisticado de prioridades para gerir situações onde múltiplas 
+            Green Ways podem entrar em conflito, ou quando o tráfego normal tem necessidades críticas.
+          </p>
+
+          <p>
+            <strong>Hierarquia de prioridades:</strong>
+          </p>
+          <ol>
+            <li>🚨 <strong>Emergência crítica:</strong> Ambulâncias INEM com código vermelho</li>
+            <li>🚑 <strong>Emergência standard:</strong> Ambulâncias, bombeiros, INEM</li>
+            <li>👮 <strong>Forças de segurança:</strong> Polícia em perseguição ou operação</li>
+            <li>🚌 <strong>Transporte público:</strong> Autocarros com atraso significativo</li>
+            <li>🚗 <strong>Tráfego normal:</strong> Fluxo regular de veículos</li>
+          </ol>
+
+          <h4>Testes de Campo da Green Wave</h4>
+          <p>
+            Realizámos testes piloto numa secção da Avenida da República, coordenando 8 semáforos 
+            consecutivos. Os resultados foram excepcionais e confirmaram a viabilidade do conceito 
+            em ambiente real.
+          </p>
+
+          <p>
+            <strong>Resultados dos testes piloto:</strong>
+          </p>
+          <ul>
+            <li>🎯 <strong>Redução tempo viagem:</strong> 68% para veículos de emergência</li>
+            <li>⏱️ <strong>Precisão temporal:</strong> 94% dos semáforos ativaram dentro de margem de 5 segundos</li>
+            <li>🚗 <strong>Impacto tráfego:</strong> Aumento de apenas 8% no tempo médio durante ativação</li>
+            <li>⚡ <strong>Velocidade média:</strong> Veículos de emergência mantiveram 45 km/h em zona de 30 km/h</li>
+            <li>🛡️ <strong>Segurança:</strong> Zero incidentes durante 200 ativações de teste</li>
+          </ul>
+
+          <h4>Integração com Sistemas Urbanos</h4>
+          <p>
+            A Green Wave não opera isoladamente. Integrámos o sistema com outras infraestruturas 
+            urbanas para maximizar a eficiência e minimizar perturbações.
+          </p>
+
+          <p>
+            <strong>Integrações implementadas:</strong>
+          </p>
+          <ul>
+            <li>🚌 <strong>Sistema CARRIS:</strong> Coordenação com horários de autocarros</li>
+            <li>🚇 <strong>Metro de Lisboa:</strong> Sincronização com chegadas/partidas</li>
+            <li>📱 <strong>Apps navegação:</strong> Alertas em tempo real para condutores</li>
+            <li>📺 <strong>Painéis informativos:</strong> Avisos de Green Wave ativa</li>
+            <li>🎙️ <strong>Rádio trânsito:</strong> Coordenação com TSF/Antena1</li>
+          </ul>
+
+          <h4>Algoritmo de Machine Learning</h4>
+          <p>
+            Implementámos um sistema de aprendizagem automática que otimiza continuamente 
+            os parâmetros da Green Wave baseado em dados históricos e padrões de tráfego.
+          </p>
+
+          <p>
+            O sistema aprende com cada ativação, identificando padrões e ajustando automaticamente:
+          </p>
+          <ul>
+            <li>📊 <strong>Padrões temporais:</strong> Diferentes estratégias para cada hora do dia</li>
+            <li>🌦️ <strong>Condições meteorológicas:</strong> Ajustes para chuva, nevoeiro, neve</li>
+            <li>📅 <strong>Eventos especiais:</strong> Adaptação a jogos, concertos, manifestações</li>
+            <li>🚧 <strong>Alterações viárias:</strong> Deteção automática de obras ou acidentes</li>
+          </ul>
+
+          <h4>Próxima Fase: Maquete Física</h4>
+          <p>
+            Com o sistema Green Wave totalmente funcional em ambiente virtual, o próximo passo 
+            é construir uma maquete física que demonstre visualmente o conceito. Esta maquete 
+            permitirá apresentações efectivas para potenciais parceiros e financiadores.
+          </p>
+
+          <p>
+            A maquete incluirá semáforos LED funcionais, representação em escala de veículos 
+            de emergência com GPS, e uma demonstração interativa da Green Wave em ação. 
+            Será a materialização física de todos os conceitos que desenvolvemos até agora.
+          </p>
+
+          <p>
+            A Green Wave representa o culminar de meses de desenvolvimento e a realização 
+            do conceito das Green Ways. É a prova de que é possível transformar ideias 
+            inovadoras em soluções práticas que podem salvar vidas nas nossas cidades.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container text-center">
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <h5><i class="bi bi-lightning-charge-fill me-2"></i>RescueFlow</h5>
+          <p>Every Second Counts</p>
+        </div>
+        <div class="col-md-4 mb-3">
+          <h5>Navegação</h5>
+          <p><a href="blog.html">Voltar ao Blog</a> | <a href="index.html">Página Principal</a></p>
+        </div>
+        <div class="col-md-4">
+          <h5>Projeto PI366</h5>
+          <p>&copy; 2025 RescueFlow Team</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.animationDelay = '0.2s';
+          entry.target.classList.add('fade-in');
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.slide-in-left, .slide-in-right, .fade-in').forEach(el => {
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
