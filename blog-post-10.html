@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blog - Construção: Iniciação da Maquete do RescueFlow</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <style>
+    :root {
+      --primary-gradient: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #3d7ebb 100%);
+      --secondary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --accent-green: #00ff88;
+      --accent-yellow: #ffd700;
+      --accent-orange: #ff6b35;
+      --accent-pink: #ff3d71;
+      --text-light: #ffffff;
+      --text-dark: #1a1a1a;
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--primary-gradient);
+      color: var(--text-light);
+      overflow-x: hidden;
+    }
+
+    .navbar {
+      background: rgba(30, 60, 114, 0.95) !important;
+      backdrop-filter: blur(10px);
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .navbar-brand {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--accent-green) !important;
+      text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+    }
+
+    .navbar-nav .nav-link {
+      color: var(--text-light) !important;
+      font-weight: 500;
+      margin: 0 0.5rem;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .navbar-nav .nav-link:hover {
+      color: var(--accent-green) !important;
+      transform: translateY(-2px);
+    }
+
+    .navbar-nav .nav-link.active {
+      color: var(--accent-yellow) !important;
+    }
+
+    .main-content {
+      margin-top: 100px;
+      padding: 2rem 0 4rem;
+    }
+
+    .sidebar {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: var(--card-shadow);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--text-dark);
+      position: sticky;
+      top: 120px;
+      height: fit-content;
+    }
+
+    .sidebar h3 {
+      color: var(--text-dark);
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .list-group {
+      border-radius: 15px;
+      overflow: hidden;
+    }
+
+    .list-group-item {
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      color: var(--text-dark);
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+
+    .list-group-item:hover {
+      background: linear-gradient(45deg, var(--accent-green), #00cc70);
+      color: var(--text-dark);
+      transform: translateX(5px);
+    }
+
+    .list-group-item.active {
+      background: linear-gradient(45deg, var(--accent-green), var(--accent-yellow));
+      border-color: var(--accent-green);
+      color: var(--text-dark);
+    }
+
+    .btn-back {
+      background: linear-gradient(45deg, var(--accent-green), #00cc70);
+      color: var(--text-dark);
+      border: none;
+      padding: 1rem;
+      border-radius: 15px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: block;
+      text-align: center;
+      box-shadow: 0 8px 25px rgba(0, 255, 136, 0.3);
+    }
+
+    .btn-back:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 35px rgba(0, 255, 136, 0.4);
+      color: var(--text-dark);
+      text-decoration: none;
+    }
+
+    .blog-content {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 3rem;
+      box-shadow: var(--card-shadow);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--text-dark);
+    }
+
+    .blog-content h2 {
+      color: var(--text-dark);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      background: linear-gradient(45deg, var(--accent-green), var(--accent-yellow));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .blog-content h4 {
+      margin-top: 2.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--text-dark);
+      font-weight: 600;
+      border-bottom: 2px solid var(--accent-green);
+      padding-bottom: 0.5rem;
+    }
+
+    .blog-content img {
+      max-width: 100%;
+      border-radius: 15px;
+      margin: 2rem 0;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .blog-content p {
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+      color: #333;
+    }
+
+    .blog-content ul {
+      margin-bottom: 1.5rem;
+    }
+
+    .blog-content ul li {
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
+
+    .text-muted {
+      color: #666 !important;
+      font-style: italic;
+    }
+
+    /* Design phase box */
+    .design-box {
+      background: linear-gradient(135deg, rgba(240, 147, 251, 0.1), rgba(245, 87, 108, 0.1));
+      border: 2px solid var(--accent-pink);
+      border-radius: 15px;
+      padding: 2rem;
+      margin: 2rem 0;
+      position: relative;
+    }
+
+    .design-box::before {
+      content: '🎨';
+      position: absolute;
+      top: -15px;
+      left: 20px;
+      background: var(--card-bg);
+      padding: 0 10px;
+      font-size: 1.5rem;
+    }
+
+    .design-box h5 {
+      color: var(--text-dark);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Materials box */
+    .materials-box {
+      background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(247, 147, 30, 0.1));
+      border: 2px solid var(--accent-orange);
+      border-radius: 15px;
+      padding: 2rem;
+      margin: 2rem 0;
+      position: relative;
+    }
+
+    .materials-box::before {
+      content: '🔧';
+      position: absolute;
+      top: -15px;
+      left: 20px;
+      background: var(--card-bg);
+      padding: 0 10px;
+      font-size: 1.5rem;
+    }
+
+    .materials-box h5 {
+      color: var(--text-dark);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Progress timeline */
+    .progress-timeline {
+      position: relative;
+      padding-left: 2rem;
+      margin: 2rem 0;
+    }
+
+    .progress-timeline::before {
+      content: '';
+      position: absolute;
+      left: 0.5rem;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(to bottom, var(--accent-green), var(--accent-yellow));
+      border-radius: 2px;
+    }
+
+    .progress-item {
+      position: relative;
+      padding: 1rem 0;
+      border-left: 3px solid transparent;
+    }
+
+    .progress-item::before {
+      content: '';
+      position: absolute;
+      left: -1.75rem;
+      top: 1.5rem;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent-green);
+      border: 3px solid var(--card-bg);
+    }
+
+    .progress-item.completed::before {
+      background: var(--accent-green);
+    }
+
+    .progress-item.in-progress::before {
+      background: var(--accent-yellow);
+    }
+
+    .progress-item.pending::before {
+      background: #ccc;
+    }
+
+    footer {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      color: var(--text-light);
+      padding: 3rem 0;
+      margin-top: 4rem;
+    }
+
+    footer a {
+      color: var(--accent-green);
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    footer a:hover {
+      color: var(--accent-yellow);
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    }
+
+    .fade-in {
+      animation: fadeIn 0.8s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .slide-in-left {
+      animation: slideInLeft 0.8s ease-out;
+    }
+
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-50px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .slide-in-right {
+      animation: slideInRight 0.8s ease-out;
+    }
+
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(50px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @media (max-width: 768px) {
+      .main-content {
+        margin-top: 80px;
+      }
+      
+      .sidebar {
+        position: static;
+        margin-bottom: 2rem;
+      }
+      
+      .blog-content {
+        padding: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <i class="bi bi-lightning-charge-fill me-2"></i>RescueFlow
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link active" href="blog.html">Blog</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#about">Sobre</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#team">Equipa</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#contact">Contactos</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container main-content">
+    <div class="row">
+      <div class="col-md-3 slide-in-left">
+        <div class="sidebar">
+          <h3>Entradas do Blog</h3>
+          <div class="list-group">
+            <a href="blog-post-1.html" class="list-group-item list-group-item-action">Post #1 (12/01/2025)</a>
+            <a href="blog-post-2.html" class="list-group-item list-group-item-action">Post #2 (28/02/2025)</a>
+            <a href="blog-post-3.html" class="list-group-item list-group-item-action">Post #3 (02/04/2025)</a>
+            <a href="blog-post-4.html" class="list-group-item list-group-item-action">Post #4 (15/04/2025)</a>
+            <a href="blog-post-5.html" class="list-group-item list-group-item-action">Post #5 (21/04/2025)</a>
+            <a href="blog-post-6.html" class="list-group-item list-group-item-action">Post #6 (05/05/2025)</a>
+            <a href="blog-post-7.html" class="list-group-item list-group-item-action">Post #7 (12/05/2025)</a>
+            <a href="blog-post-8.html" class="list-group-item list-group-item-action">Post #8 (19/05/2025)</a>
+            <a href="blog-post-9.html" class="list-group-item list-group-item-action">Post #9 (26/05/2025)</a>
+            <a href="blog-post-10.html" class="list-group-item list-group-item-action active">Post #10 (02/06/2025)</a>
+            <a href="blog-post-11.html" class="list-group-item list-group-item-action">Post #11 (09/06/2025)</a>
+          </div>
+          <div class="mt-4">
+            <a href="blog.html" class="btn-back">
+              <i class="bi bi-arrow-left me-2"></i>Voltar ao Blog
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-9 slide-in-right">
+        <div class="blog-content fade-in">
+          <h2>Construção: Iniciação da Maquete do RescueFlow</h2>
+          <p><strong>Data:</strong> 2 de Junho 2025</p>
+          <p class="text-muted">Por: Mafalda Lopes e Joana Teixeira</p>
+          
+          <p>
+            Depois de meses desenvolvendo algoritmos, protocolos de comunicação e a Green Wave, 
+            chegou o momento de materializar o RescueFlow numa demonstração física tangível. 
+            A construção da maquete representa a transição do digital para o físico, 
+            permitindo-nos mostrar visualmente como o sistema funciona no mundo real.
+          </p>
+          
+          <div class="text-center my-4">
+            <img src="images/maquete-design.jpg" alt="Design inicial da maquete" class="img-fluid rounded">
+          </div>
+          
+          <p>
+            A maquete não é apenas um modelo decorativo - é um protótipo funcional em escala 
+            que demonstra todos os conceitos desenvolvidos: GPS, comunicação, scheduling, 
+            e a famosa Green Wave. Cada componente da maquete terá funcionalidade real, 
+            desde semáforos LED até veículos com GPS miniaturizado.
+          </p>
+
+          <div class="design-box">
+            <h5>🎨 Conceito e Design da Maquete</h5>
+            <p>
+              Projetámos uma maquete em escala 1:87 (escala HO) que representa uma intersecção 
+              típica de Lisboa com 4 cruzamentos interligados. O design baseia-se na 
+              Praça de Londres e arredores, uma área conhecida pelo tráfego intenso.
+            </p>
+            <p><strong>Características do design:</strong></p>
+            <ul>
+              <li>🏙️ <strong>Base:</strong> Placa de MDF 120x80cm com relevo das ruas</li>
+              <li>🚦 <strong>Semáforos:</strong> 12 semáforos funcionais com LEDs RGB</li>
+              <li>🚑 <strong>Veículos:</strong> Ambulância com módulo GPS e comunicação</li>
+              <li>🏘️ <strong>Cenário:</strong> Edifícios representativos da arquitetura lisboeta</li>
+              <li>🖥️ <strong>Display:</strong> Monitor LCD mostrando dados em tempo real</li>
+              <li>🎛️ <strong>Controlo:</strong> Interface touch para demonstrações interativas</li>
+            </ul>
+          </div>
+
+          <h4>Planeamento da Construção</h4>
+          <p>
+            A construção da maquete foi dividida em fases sequenciais, cada uma com objetivos 
+            específicos e marcos de validação. Este planeamento garante que cada componente 
+            seja testado individualmente antes da integração final.
+          </p>
+
+          <div class="progress-timeline">
+            <div class="progress-item completed">
+              <h6><strong>Fase 1: Design e Modelação 3D</strong></h6>
+              <p>Criação dos modelos digitais e simulações preliminares.</p>
+            </div>
+            <div class="progress-item in-progress">
+              <h6><strong>Fase 2: Construção da Base</strong></h6>
+              <p>Preparação da estrutura principal e layout das ruas.</p>
+            </div>
+            <div class="progress-item pending">
+              <h6><strong>Fase 3: Sistema Elétrico</strong></h6>
+              <p>Instalação da rede elétrica e controladores dos semáforos.</p>
+            </div>
+            <div class="progress-item pending">
+              <h6><strong>Fase 4: Componentes Eletrónicos</strong></h6>
+              <p>Integração de Arduino, sensores GPS e módulos de comunicação.</p>
+            </div>
+            <div class="progress-item pending">
+              <h6><strong>Fase 5: Software e Calibração</strong></h6>
+              <p>Programação final e testes de sincronização.</p>
+            </div>
+          </div>
+
+          <div class="materials-box">
+            <h5>🔧 Materiais e Componentes</h5>
+            <p>
+              Selecionámos materiais que equilibram realismo visual, funcionalidade técnica 
+              e viabilidade económica. Todos os componentes eletrónicos são industriais 
+              para garantir fiabilidade durante demonstrações.
+            </p>
+            <p><strong>Lista de materiais:</strong></p>
+            <ul>
+              <li>🏗️ <strong>Estrutura:</strong> Placa MDF 15mm, espuma expandida para relevo</li>
+              <li>💡 <strong>Semáforos:</strong> 36 LEDs RGB, 12 controladores Arduino Nano</li>
+              <li>📍 <strong>GPS:</strong> Módulo NEO-8M miniaturizado para veículos</li>
+              <li>📡 <strong>Comunicação:</strong> ESP32 com WiFi integrado</li>
+              <li>🎨 <strong>Acabamentos:</strong> Tinta acrílica, relva sintética, materiais de modelismo</li>
+              <li>🏘️ <strong>Edifícios:</strong> Impressão 3D em PLA, detalhes em escala</li>
+            </ul>
+          </div>
+
+          <h4>Desafios Técnicos da Miniaturização</h4>
+          <p>
+            Adaptar tecnologia desenvolvida para veículos reais para uma escala 1:87 apresentou 
+            desafios únicos. O principal obstáculo foi manter a precisão do GPS e a fiabilidade 
+            da comunicação em dispositivos miniaturizados.
+          </p>
+
+          <p>
+            <strong>Soluções implementadas:</strong>
+          </p>
+          <ul>
+            <li>📏 <strong>Escala de precisão:</strong> Conversão matemática das distâncias para escala</li>
+            <li>🔋 <strong>Alimentação:</strong> Baterias LiPo de 3.7V para autonomia dos veículos</li>
+            <li>📶 <strong>Sinal WiFi:</strong> Hotspot dedicado para comunicação localizada</li>
+            <li>⚡ <strong>Controladores:</strong> Arduino Nano para manter tamanho reduzido</li>
+            <li>🎛️ <strong>Interface:</strong> Controlo via tablet Android integrado na base</li>
+          </ul>
+
+          <h4>Representação Visual do Sistema</h4>
+          <p>
+            A maquete inclui elementos visuais que tornam o funcionamento do RescueFlow 
+            compreensível para audiências não técnicas. Luzes, cores e movimento combinam-se 
+            para contar a história do sistema de forma intuitiva.
+          </p>
+
+          <p>
+            <strong>Elementos visuais implementados:</strong>
+          </p>
+          <ul>
+            <li>🌊 <strong>Green Wave:</strong> LEDs verdes que se propagam sequencialmente pelos semáforos</li>
+            <li>🚑 <strong>Tracking:</strong> LED azul que segue a ambulância em tempo real</li>
+            <li>📊 <strong>Dashboard:</strong> Métricas ao vivo de tempo de viagem e eficiência</li>
+            <li>🎯 <strong>Zonas ativas:</strong> Iluminação da área sob controlo da Green Wave</li>
+            <li>⚠️ <strong>Estados de emergência:</strong> Alertas visuais para diferentes níveis de prioridade</li>
+          </ul>
+
+          <h4>Integração com Demonstrações</h4>
+          <p>
+            A maquete foi concebida especificamente para apresentações e demonstrações. 
+            Incluimos funcionalidades que permitem cenários interativos e comparações 
+            antes/depois do sistema RescueFlow.
+          </p>
+
+          <p>
+            <strong>Modos de demonstração:</strong>
+          </p>
+          <ul>
+            <li>🎭 <strong>Modo Automático:</strong> Demonstração contínua da Green Wave</li>
+            <li>👆 <strong>Modo Interativo:</strong> Visitantes podem ativar emergências</li>
+            <li>📊 <strong>Modo Comparação:</strong> Antes vs. depois do RescueFlow</li>
+            <li>🎓 <strong>Modo Educativo:</strong> Explicação passo-a-passo do algoritmo</li>
+            <li>🔧 <strong>Modo Técnico:</strong> Dados detalhados para especialistas</li>
+          </ul>
+
+          <h4>Colaboração da Equipa</h4>
+          <p>
+            A construção da maquete representou o primeiro projeto onde toda a equipa trabalhou 
+            fisicamente no mesmo espaço. Foi uma oportunidade única de colaboração prática 
+            que fortaleceu a coesão do grupo e permitiu partilha direta de conhecimentos.
+          </p>
+
+          <p>
+            <strong>Divisão de responsabilidades:</strong>
+          </p>
+          <ul>
+            <li>🎨 <strong>Mafalda e Joana:</strong> Design visual e construção da base</li>
+            <li>⚡ <strong>Martim e Henrique:</strong> Sistema elétrico e programação</li>
+            <li>🚗 <strong>Pedro e Dinis:</strong> Veículos e sistema de tracking</li>
+            <li>🤝 <strong>Equipa completa:</strong> Integração final e testes</li>
+          </ul>
+
+          <h4>Próximos Passos: Finalização</h4>
+          <p>
+            Com a base construída e os componentes principais adquiridos, a próxima semana 
+            será dedicada à integração de todos os sistemas eletrónicos. O objetivo é ter 
+            a maquete completamente funcional para a apresentação final do projeto.
+          </p>
+
+          <p>
+            Esta maquete representa mais do que uma demonstração - é a prova física de que 
+            o RescueFlow é viável e pode ser implementado no mundo real. Cada LED que acende, 
+            cada movimento da ambulância miniaturizada, cada sincronização perfeita dos 
+            semáforos demonstra o potencial transformador desta tecnologia.
+          </p>
+
+          <p>
+            No próximo post, documentaremos a finalização da construção e os primeiros 
+            testes funcionais desta materialização dos nossos meses de trabalho e inovação.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container text-center">
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <h5><i class="bi bi-lightning-charge-fill me-2"></i>RescueFlow</h5>
+          <p>Every Second Counts</p>
+        </div>
+        <div class="col-md-4 mb-3">
+          <h5>Navegação</h5>
+          <p><a href="blog.html">Voltar ao Blog</a> | <a href="index.html">Página Principal</a></p>
+        </div>
+        <div class="col-md-4">
+          <h5>Projeto PI366</h5>
+          <p>&copy; 2025 RescueFlow Team</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.animationDelay = '0.2s';
+          entry.target.classList.add('fade-in');
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.slide-in-left, .slide-in-right, .fade-in').forEach(el => {
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
